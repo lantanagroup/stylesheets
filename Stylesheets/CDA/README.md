@@ -1,5 +1,6 @@
+# CDA Stylesheet
 ## Introduction
-This is the repository for Lantana's public CDA Stylesheet, an open-source
+This folder contains the Lantana CDA stylesheet, an open-source
 renderer for CDA documents. The stylesheet transforms the XML of a CDA document
 into a webpage that can be viewed in a browser or other XSLT-compatible application.
 

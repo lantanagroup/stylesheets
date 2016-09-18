@@ -1,1 +1,1 @@
-Open source repository for standards-based stylesheets.
+This repository is for Lantana stylesheets. 

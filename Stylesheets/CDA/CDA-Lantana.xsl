@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- 
+<!--
   Title: Lantana's CDA Stylesheet
   Original Filename: CDA-Lantana.xsl
   Usage: This stylesheet is designed for use with clinical documents
-  
+
   Revision History: 2015-08-31 Eric Parapini - Original Commit
   Revision History: 2015-08-31 Eric Parapini - Updating Built in CSS for Camara conversion, fixed the rendering issue with Table of contents linking (Sean's help)
   Revision History: 2015-09-01 Eric Parapini - Updating Colors, Revamping the CSS, New Vision of the Header Information, Hover Tables, Formatted Patient Information Initial Release
@@ -18,7 +18,7 @@
                                                Fixed up the assigned entity formatting
                                                Fixed up the informant
   Revision History: 2015-10-22 Eric Parapini - Fixed a few more things, disabled table of content generation for now
-                                               Removed the timezone offset in date renderings, deemed unecessary. 
+                                               Removed the timezone offset in date renderings, deemed unecessary.
   Revision History: 2015-12-10 Eric Parapini - Removed some of the additional time errors
   Revision History: 2016-02-22 Eric Parapini - Added Logo space, added in some javascript background support for interactive navigation bars
   Revision History: 2016-02-23 Eric Parapini - Added smooth scrolling, making the document easier to navigate
@@ -32,17 +32,17 @@
   Revision History: 2016-06-08 Eric Parapini - Removed Emergency Contact Table of Contents
   Revision History: 2016-08-06 Eric Parapini - Table of Contents Drag and Drop
   Revision History: 2016-08-08 Eric Parapini - Document Type shows up in rendered view
-  
+
   This style sheet is based on a major revision of the original CDA XSL, which was made possible thanks to the contributions of:
   - Jingdong Li
   - KH
   - Rick Geimer
   - Sean McIlvenna
   - Dale Nelson
-  
+
 -->
 
-<!-- 
+<!--
 Copyright 2016 Lantana Consulting Group
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -212,7 +212,7 @@ limitations under the License.
           <a class="cda-render lantana-toc" href="#author-performer">AUTHORING DETAILS</a>
         </li>
         <li>
-          <a class="cda-render lantana-toc" href="#doc-clinical-info">Clinical Sections</a>
+          <a class="cda-render lantana-toc bold" href="#doc-clinical-info">Clinical Sections</a>
           <ul class="cda-render nav nav-stacked fixed" id="navbar-list-cda-sortable">
             <xsl:for-each select="n1:component/n1:structuredBody/n1:component/n1:section/n1:title">
               <li>

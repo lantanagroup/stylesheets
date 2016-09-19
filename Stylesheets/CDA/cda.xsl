@@ -114,6 +114,7 @@ limitations under the License.
           <xsl:value-of select="$title"/>
         </title>
         <xsl:call-template name="jquery"/>
+        <xsl:call-template name="jquery-ui"/>
         <xsl:call-template name="bootstrap-css"/>
         <xsl:call-template name="bootstrap-javascript"/>
         <xsl:call-template name="lantana-js"/>

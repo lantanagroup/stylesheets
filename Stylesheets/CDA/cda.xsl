@@ -1210,6 +1210,7 @@ limitations under the License.
       <!-- if there is a reference, use that in an IFRAME -->
       <xsl:when test="n1:text/n1:reference">
         <xsl:variable name="source" select="string(n1:text/n1:reference/@value)"/>
+        <xsl:variable name="mediaType" select="string(n1:text/@mediaType)" />
         <xsl:variable name="lcSource" select="translate($source, $uc, $lc)"/>
         <xsl:variable name="scrubbedSource"
           select="translate($source, $simple-sanitizer-match, $simple-sanitizer-replace)"/>
@@ -1234,7 +1235,13 @@ limitations under the License.
           </xsl:when>
           <xsl:otherwise>
             <iframe name="nonXMLBody" id="nonXMLBody" WIDTH="80%" HEIGHT="600" src="{$source}"
-              sandbox=""/>
+              ><html>
+                <body>
+                  <object data="{$source}" type="{$mediaType}">
+                    <embed src="{$source}" type="{$mediaType}" />
+                  </object>
+                </body>
+              </html></iframe>
           </xsl:otherwise>
         </xsl:choose>
       </xsl:when>

@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?><!-- 
+<?xml version="1.0" encoding="UTF-8"?><!--
   Title: Lantana's CDA Stylesheet
   Original Filename: CDA-Lantana.xsl
   Usage: This stylesheet is designed for use with clinical documents
-  
+
   Revision History: 2015-08-31 Eric Parapini - Original Commit
   Revision History: 2015-08-31 Eric Parapini - Updating Built in CSS for Camara conversion, fixed the rendering issue with Table of contents linking (Sean's help)
   Revision History: 2015-09-01 Eric Parapini - Updating Colors, Revamping the CSS, New Vision of the Header Information, Hover Tables, Formatted Patient Information Initial Release
@@ -17,7 +17,7 @@
                                                Fixed up the assigned entity formatting
                                                Fixed up the informant
   Revision History: 2015-10-22 Eric Parapini - Fixed a few more things, disabled table of content generation for now
-                                               Removed the timezone offset in date renderings, deemed unecessary. 
+                                               Removed the timezone offset in date renderings, deemed unecessary.
   Revision History: 2015-12-10 Eric Parapini - Removed some of the additional time errors
   Revision History: 2016-02-22 Eric Parapini - Added Logo space, added in some javascript background support for interactive navigation bars
   Revision History: 2016-02-23 Eric Parapini - Added smooth scrolling, making the document easier to navigate
@@ -31,15 +31,15 @@
   Revision History: 2016-06-08 Eric Parapini - Removed Emergency Contact Table of Contents
   Revision History: 2016-08-06 Eric Parapini - Table of Contents Drag and Drop
   Revision History: 2016-08-08 Eric Parapini - Document Type shows up in rendered view
-  
+
   This style sheet is based on a major revision of the original CDA XSL, which was made possible thanks to the contributions of:
   - Jingdong Li
   - KH
   - Rick Geimer
   - Sean McIlvenna
   - Dale Nelson
-  
---><!-- 
+
+--><!--
 Copyright 2016 Lantana Consulting Group
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -55,7 +55,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 --><xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
   <!-- This is where all the styles are loaded -->
-  
+  <xsl:include xmlns:n1="urn:hl7-org:v3" xmlns:in="urn:lantana-com:inline-variable-data" href="cda-style.xsl"/>
 
   <xsl:output xmlns:n1="urn:hl7-org:v3" xmlns:in="urn:lantana-com:inline-variable-data" method="html" indent="yes" version="4.01" encoding="UTF-8" doctype-system="http://www.w3.org/TR/html4/strict.dtd" doctype-public="-//W3C//DTD HTML 4.01//EN"/>
   <xsl:param xmlns:n1="urn:hl7-org:v3" xmlns:in="urn:lantana-com:inline-variable-data" name="limit-external-images" select="'yes'"/>
@@ -204,7 +204,7 @@ limitations under the License.
           <a class="cda-render lantana-toc" href="#author-performer">AUTHORING DETAILS</a>
         </li>
         <li>
-          <a class="cda-render lantana-toc" href="#doc-clinical-info">Clinical Sections</a>
+          <a class="cda-render lantana-toc bold" href="#doc-clinical-info">Clinical Sections</a>
           <ul class="cda-render nav nav-stacked fixed" id="navbar-list-cda-sortable">
             <xsl:for-each select="n1:component/n1:structuredBody/n1:component/n1:section/n1:title">
               <li>
@@ -1181,6 +1181,7 @@ limitations under the License.
       <!-- if there is a reference, use that in an IFRAME -->
       <xsl:when test="n1:text/n1:reference">
         <xsl:variable name="source" select="string(n1:text/n1:reference/@value)"/>
+        <xsl:variable name="mediaType" select="string(n1:text/@mediaType)"/>
         <xsl:variable name="lcSource" select="translate($source, $uc, $lc)"/>
         <xsl:variable name="scrubbedSource" select="translate($source, $simple-sanitizer-match, $simple-sanitizer-replace)"/>
         <xsl:message>
@@ -1204,7 +1205,15 @@ limitations under the License.
             </xsl:message>
           </xsl:when>
           <xsl:otherwise>
-            <iframe name="nonXMLBody" id="nonXMLBody" WIDTH="80%" HEIGHT="600" src="{$source}" sandbox=""/>
+            <iframe name="nonXMLBody" id="nonXMLBody" WIDTH="80%" HEIGHT="600" src="{$source}">
+<html>
+                <body>
+                  <object data="{$source}" type="{$mediaType}">
+                    <embed src="{$source}" type="{$mediaType}"/>
+                  </object>
+                </body>
+              </html>
+</iframe>
           </xsl:otherwise>
         </xsl:choose>
       </xsl:when>
@@ -3507,7 +3516,7 @@ limitations under the License.
           font-family:CenturyGothic, sans-serif;
           /*font-size:1.25em;*/
       }
-      
+
       /* One-off - CDA Document Title */
       .cda-render h1.cda-title{
         color:#b3623d;
@@ -3517,32 +3526,32 @@ limitations under the License.
         text-transform: uppercase;
         padding-top: 55px;
       }
-      
+
       /* nav bar formatting */
       .cda-render .patient-header {
         height: 50px;
         padding: 15px 15px;
         font-size: 1.5em;
       }
-      
+
       /* One-off - Table of contents formatting */
       .cda-render .toc {
         margin-top:3em;
         padding: 10px 15px;
       }
-      
+
       .cda-render .toc-box {
         padding-top: 80px;
       }
-      
-      
+
+
       /* One-off - Patient Name Formatting */
       .cda-render .patient-name {
         color:#336b7a;
         font-size:1.25em;
         font-weight:bold;
       }
-      
+
       /* Re-usable - Section-Title */
       .cda-render .section-title {
         color:#336b7a;
@@ -3551,15 +3560,15 @@ limitations under the License.
         text-transform: uppercase;
         padding-top: 55px;
       }
-      
+
       /* Re-usable - Attribute title */
       .cda-render .attribute-title {
         color:#000000;
         font-weight:bold;
         font-size:1.04em;
       }
-      
-      
+
+
       /***** Header Grouping */
       .cda-render .header{
           border-bottom-width:0.1em;
@@ -3567,7 +3576,7 @@ limitations under the License.
           border-bottom-color:#1B6373;
           padding-bottom:0.5em;
       }
-      
+
       .cda-render .header-group-content{
           margin-left:1em;
           padding-left:0.5em;
@@ -3575,7 +3584,7 @@ limitations under the License.
           border-left-style:solid;
           border-left-color:#478B95;
       }
-      
+
       .cda-render .tight{
           margin:0;
       }
@@ -3590,13 +3599,16 @@ limitations under the License.
           border-top-color:#B0592C;
           border-top-style:solid;
       }
-      
+
       /***** Table of Contents Attributes */
       /* Table of contents entry */
       .cda-render .lantana-toc {
         text-transform: uppercase;
       }
       
+      .cda-render .bold {
+        font-weight: bold;
+      }
 
       .cda-render .active {
         border-right-color: #336b7a;
@@ -3605,7 +3617,7 @@ limitations under the License.
         border-left-style: solid;
         background-color:#eee;
       }
-      
+
       #navbar-list-cda {
         overflow: auto;
       }
@@ -3659,20 +3671,21 @@ $( function() {
             $nav.find( 'a' ).each( function ( ) {
                 $content.append( $originalContent.clone( ).find( $( this ).attr( 'href' ) ).parent ( ) );
             } );
-            
+
               $('[data-spy="scroll"]').each(function () {
   var $spy = $(this).scrollspy('refresh')
 })
         }
     } );
   } );
-  
+
 
       
     </script>
   </xsl:template>
 <xsl:template xmlns:xs="http://www.w3.org/2001/XMLSchema" name="jquery">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"/>
+
   </xsl:template>
 <xsl:template xmlns:xs="http://www.w3.org/2001/XMLSchema" name="jquery-ui">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"/>

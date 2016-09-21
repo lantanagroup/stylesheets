@@ -20,9 +20,8 @@ Simply reference the stylesheet in the XML file and open the XML file in
 Internet Explorer (Edge or older IE). To use the navigation features, select
 "Allow blocked content"
 ```
-<?xml-stylesheet type="text/xsl" href="./Stylesheets/CDA/CDA-Lantana.xsl"?>
+<?xml-stylesheet type="text/xsl" href="./CDA-Lantana.xsl"?>
 ```
-
 Alternatively use an XSLT transformation engine and open the output in your browser of
 choice. The output is confirmed to work on Chrome, Internet Explorer (Edge or Older)
 and Firefox.

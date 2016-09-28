@@ -1210,7 +1210,7 @@ limitations under the License.
       <!-- if there is a reference, use that in an IFRAME -->
       <xsl:when test="n1:text/n1:reference">
         <xsl:variable name="source" select="string(n1:text/n1:reference/@value)"/>
-        <xsl:variable name="mediaType" select="string(n1:text/@mediaType)" />
+        <xsl:variable name="mediaType" select="string(n1:text/@mediaType)"/>
         <xsl:variable name="lcSource" select="translate($source, $uc, $lc)"/>
         <xsl:variable name="scrubbedSource"
           select="translate($source, $simple-sanitizer-match, $simple-sanitizer-replace)"/>
@@ -1234,14 +1234,15 @@ limitations under the License.
             </xsl:message>
           </xsl:when>
           <xsl:otherwise>
-            <iframe name="nonXMLBody" id="nonXMLBody" WIDTH="80%" HEIGHT="600" src="{$source}"
-              ><html>
+            <iframe name="nonXMLBody" id="nonXMLBody" WIDTH="80%" HEIGHT="600" src="{$source}">
+              <html>
                 <body>
                   <object data="{$source}" type="{$mediaType}">
-                    <embed src="{$source}" type="{$mediaType}" />
+                    <embed src="{$source}" type="{$mediaType}"/>
                   </object>
                 </body>
-              </html></iframe>
+              </html>
+            </iframe>
           </xsl:otherwise>
         </xsl:choose>
       </xsl:when>
@@ -1271,7 +1272,6 @@ limitations under the License.
         </div>
       </xsl:for-each>
     </div>
-    <!--</div>-->
   </xsl:template>
   <!-- top level section title -->
   <xsl:template name="section-title">
@@ -1280,7 +1280,6 @@ limitations under the License.
       <xsl:value-of select="$title"/>
     </h1>
   </xsl:template>
-
 
   <!-- section author -->
   <xsl:template name="section-author">
@@ -1511,6 +1510,11 @@ limitations under the License.
     <xsl:variable name="elem-name" select="local-name(.)"/>
     <!-- This assigns all outputted elements the cda-render class -->
     <xsl:attribute name="class">cda-render</xsl:attribute>
+    <xsl:choose>
+      <xsl:when test="$elem-name = 'table'">
+        <xsl:attribute name="class">table table-striped table-hover</xsl:attribute>
+      </xsl:when>
+    </xsl:choose>
     <xsl:for-each select="@*">
       <xsl:variable name="attr-name" select="local-name(.)"/>
       <xsl:variable name="source" select="."/>
@@ -1551,10 +1555,10 @@ limitations under the License.
 
   <xsl:template match="n1:table">
     <div class="table-responsive">
-      <table class="table table-striped table-hover">
-        <!--<xsl:call-template name="output-attrs"/>-->
+      <xsl:element name="{local-name()}">
+        <xsl:call-template name="output-attrs"/>
         <xsl:apply-templates/>
-      </table>
+      </xsl:element>
     </div>
   </xsl:template>
 
@@ -3564,7 +3568,10 @@ limitations under the License.
       <xsl:when test="$code-type = '11512-1'">
         <xsl:text>Speech-language pathology Progress note</xsl:text>
       </xsl:when>
-
+      <xsl:otherwise>
+        <xsl:text>CDA Document:  </xsl:text>
+        <xsl:value-of select="$code-type"/>
+      </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
 </xsl:stylesheet>

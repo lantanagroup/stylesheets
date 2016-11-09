@@ -49,7 +49,7 @@
     </target>
     
     <target name="compile">
-        <property name="cda-lantana-styles" location="Stylesheets/CDA/cda-style.xsl"/>
+        <property name="cda-lantana-styles" location="Stylesheets/CDA/cda-js-dependencies.xsl"/>
         <xslt in="Stylesheets/CDA/cda.xsl" style="compile.xsl"
             out="Stylesheets/CDA/dist/cda-combined.xsl" force="true">
             <param name="combineFile" expression="${cda-lantana-styles}" type="STRING"/>

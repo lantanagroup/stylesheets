@@ -62,7 +62,8 @@ limitations under the License.
   xmlns:n1="urn:hl7-org:v3" xmlns:in="urn:lantana-com:inline-variable-data">
   <!-- This is where all the styles are loaded -->
   <xsl:include href="cda-style.xsl"/>
-
+  <xsl:include href="cda-js-dependencies.xsl"/>
+  
   <xsl:output method="html" indent="yes" version="4.01" encoding="UTF-8"
     doctype-system="http://www.w3.org/TR/html4/strict.dtd"
     doctype-public="-//W3C//DTD HTML 4.01//EN"/>

@@ -56,7 +56,8 @@ limitations under the License.
 --><xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
   <!-- This is where all the styles are loaded -->
   <xsl:include xmlns:n1="urn:hl7-org:v3" xmlns:in="urn:lantana-com:inline-variable-data" href="cda-style.xsl"/>
-
+  <xsl:include xmlns:n1="urn:hl7-org:v3" xmlns:in="urn:lantana-com:inline-variable-data" href="cda-js-dependencies.xsl"/>
+  
   <xsl:output xmlns:n1="urn:hl7-org:v3" xmlns:in="urn:lantana-com:inline-variable-data" method="html" indent="yes" version="4.01" encoding="UTF-8" doctype-system="http://www.w3.org/TR/html4/strict.dtd" doctype-public="-//W3C//DTD HTML 4.01//EN"/>
   <xsl:param xmlns:n1="urn:hl7-org:v3" xmlns:in="urn:lantana-com:inline-variable-data" name="limit-external-images" select="'yes'"/>
   <!-- A vertical bar separated list of URI prefixes, such as "http://www.example.com|https://www.example.com" -->
@@ -1206,14 +1207,14 @@ limitations under the License.
           </xsl:when>
           <xsl:otherwise>
             <iframe name="nonXMLBody" id="nonXMLBody" WIDTH="80%" HEIGHT="600" src="{$source}">
-<html>
+              <html>
                 <body>
                   <object data="{$source}" type="{$mediaType}">
                     <embed src="{$source}" type="{$mediaType}"/>
                   </object>
                 </body>
               </html>
-</iframe>
+            </iframe>
           </xsl:otherwise>
         </xsl:choose>
       </xsl:when>
@@ -1245,7 +1246,6 @@ limitations under the License.
         </div>
       </xsl:for-each>
     </div>
-    <!--</div>-->
   </xsl:template>
   <!-- top level section title -->
   <xsl:template xmlns:n1="urn:hl7-org:v3" xmlns:in="urn:lantana-com:inline-variable-data" name="section-title">
@@ -1254,7 +1254,6 @@ limitations under the License.
       <xsl:value-of select="$title"/>
     </h1>
   </xsl:template>
-
 
   <!-- section author -->
   <xsl:template xmlns:n1="urn:hl7-org:v3" xmlns:in="urn:lantana-com:inline-variable-data" name="section-author">
@@ -1487,6 +1486,11 @@ limitations under the License.
     <xsl:variable name="elem-name" select="local-name(.)"/>
     <!-- This assigns all outputted elements the cda-render class -->
     <xsl:attribute name="class">cda-render</xsl:attribute>
+    <xsl:choose>
+      <xsl:when test="$elem-name = 'table'">
+        <xsl:attribute name="class">table table-striped table-hover</xsl:attribute>
+      </xsl:when>
+    </xsl:choose>
     <xsl:for-each select="@*">
       <xsl:variable name="attr-name" select="local-name(.)"/>
       <xsl:variable name="source" select="."/>
@@ -1526,10 +1530,10 @@ limitations under the License.
 
   <xsl:template xmlns:n1="urn:hl7-org:v3" xmlns:in="urn:lantana-com:inline-variable-data" match="n1:table">
     <div class="table-responsive">
-      <table class="table table-striped table-hover">
-        <!--<xsl:call-template name="output-attrs"/>-->
+      <xsl:element name="{local-name()}">
+        <xsl:call-template name="output-attrs"/>
         <xsl:apply-templates/>
-      </table>
+      </xsl:element>
     </div>
   </xsl:template>
 
@@ -3506,194 +3510,23 @@ limitations under the License.
       <xsl:when test="$code-type = '11512-1'">
         <xsl:text>Speech-language pathology Progress note</xsl:text>
       </xsl:when>
-
+      <xsl:otherwise>
+        <xsl:text>CDA Document:  </xsl:text>
+        <xsl:value-of select="$code-type"/>
+      </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
-<xsl:template xmlns:xs="http://www.w3.org/2001/XMLSchema" name="lantana-css">
-    <style>
-      /* Catch all for the document */
-      .cda-render{
-          font-family:CenturyGothic, sans-serif;
-          /*font-size:1.25em;*/
-      }
-
-      /* One-off - CDA Document Title */
-      .cda-render h1.cda-title{
-        color:#b3623d;
-        font-size:1.5em;
-        font-weight:bold;
-        text-align:center;
-        text-transform: uppercase;
-        padding-top: 55px;
-      }
-
-      /* nav bar formatting */
-      .cda-render .patient-header {
-        height: 50px;
-        padding: 15px 15px;
-        font-size: 1.5em;
-      }
-
-      /* One-off - Table of contents formatting */
-      .cda-render .toc {
-        margin-top:3em;
-        padding: 10px 15px;
-      }
-
-      .cda-render .toc-box {
-        padding-top: 80px;
-      }
-
-
-      /* One-off - Patient Name Formatting */
-      .cda-render .patient-name {
-        color:#336b7a;
-        font-size:1.25em;
-        font-weight:bold;
-      }
-
-      /* Re-usable - Section-Title */
-      .cda-render .section-title {
-        color:#336b7a;
-        font-size:1.09em;
-        font-weight:bold;
-        text-transform: uppercase;
-        padding-top: 55px;
-      }
-
-      /* Re-usable - Attribute title */
-      .cda-render .attribute-title {
-        color:#000000;
-        font-weight:bold;
-        font-size:1.04em;
-      }
-
-
-      /***** Header Grouping */
-      .cda-render .header{
-          border-bottom-width:0.1em;
-          border-bottom-style:solid;
-          border-bottom-color:#1B6373;
-          padding-bottom:0.5em;
-      }
-
-      .cda-render .header-group-content{
-          margin-left:1em;
-          padding-left:0.5em;
-          border-left-width:0.15em;
-          border-left-style:solid;
-          border-left-color:#478B95;
-      }
-
-      .cda-render .tight{
-          margin:0;
-      }
-      .cda-render .generated-text{
-          white-space:no-wrap;
-          margin:0em;
-          color:#B0592C;
-          font-style:italic;
-      }
-      .cda-render .bottom{
-          border-top-width:0.2em;
-          border-top-color:#B0592C;
-          border-top-style:solid;
-      }
-
-      /***** Table of Contents Attributes */
-      /* Table of contents entry */
-      .cda-render .lantana-toc {
-        text-transform: uppercase;
-      }
-      
-      .cda-render .bold {
-        font-weight: bold;
-      }
-
-      .cda-render .active {
-        border-right-color: #336b7a;
-        border-right-style: solid;
-        border-left-color: #336b7a;
-        border-left-style: solid;
-        background-color:#eee;
-      }
-
-      #navbar-list-cda {
-        overflow: auto;
-      }
-    </style>
-  </xsl:template>
-<xsl:template xmlns:xs="http://www.w3.org/2001/XMLSchema" name="lantana-js">
-    <script type="text/javascript">
-      
-$(document).ready(function(){
-    $('#navbar-list-cda').height($(window).height()-100);
-});
-$(window).resize(function(){
-    $('#navbar-list-cda').height($(window).height()-100);
-});
-
-$(document).ready(function(){
-    $('#navbar-list-cda').height($(window).height()-100);
-});
-
-$(window).resize(function(){
-    $('#navbar-list-cda').height($(window).height()-100);
-});
-
-$(function() {
-  $('.cda-render a[href*="#"]:not([href="#"])').click(function() {
-    if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') &amp;&amp; location.hostname == this.hostname) {
-      var target = $(this.hash);
-      target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
-      if (target.length) {
-        $('html, body').animate({
-          scrollTop: target.offset().top
-        }, 1000);
-        return false;
-      }
-    }
-  });
-});
-
-$( function() {
-    $( "#navbar-list-cda-sortable" ).sortable();
-    $( "#navbar-list-cda-sortable" ).disableSelection();
-  } );
-
-  $( function( ) {
-    var $nav = $( '#navbar-list-cda-sortable' );
-    var $content = $( '#doc-clinical-info' );
-    var $originalContent = $content.clone( );
-    $nav.sortable( {
-        update: function ( e ) {
-            $content.empty( );
-            $nav.find( 'a' ).each( function ( ) {
-                $content.append( $originalContent.clone( ).find( $( this ).attr( 'href' ) ).parent ( ) );
-            } );
-
-              $('[data-spy="scroll"]').each(function () {
-  var $spy = $(this).scrollspy('refresh')
-})
-        }
-    } );
-  } );
-
-
-      
-    </script>
-  </xsl:template>
 <xsl:template xmlns:xs="http://www.w3.org/2001/XMLSchema" name="jquery">
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"/>
-
-  </xsl:template>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"/>
+        
+    </xsl:template>
 <xsl:template xmlns:xs="http://www.w3.org/2001/XMLSchema" name="jquery-ui">
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"/>
-  </xsl:template>
-<xsl:template xmlns:xs="http://www.w3.org/2001/XMLSchema" name="bootstrap-javascript">
-          <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"/>
-  </xsl:template>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"/>
+    </xsl:template>
 <xsl:template xmlns:xs="http://www.w3.org/2001/XMLSchema" name="bootstrap-css">
-          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css"/>
-  </xsl:template>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css"/>
+    </xsl:template>
+<xsl:template xmlns:xs="http://www.w3.org/2001/XMLSchema" name="bootstrap-javascript">
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"/>
+    </xsl:template>
 </xsl:stylesheet>

@@ -7,7 +7,7 @@
     version="1.0">
     <xsl:output indent="yes" method="xml" />
     <xsl:namespace-alias stylesheet-prefix="axsl" result-prefix="xsl"/>
-    <xsl:param name="combineFile" select="'Stylesheets/CDA/CDA-Lantana-Style.xsl'" />
+    <xsl:param name="combineFile" select="'Stylesheets/CDA/cda-style.xsl'" />
     <xsl:param name="bootstrap-css-cdn" />
     <xsl:param name="bootstrap-js-cdn" />
     <xsl:param name="jquery-js-cdn" />
@@ -78,7 +78,7 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
-    <xsl:template match="xsl:include[@href='CDA-Lantana-Style.xsl']">
+    <xsl:template match="xsl:include[@href='cda-style.xsl']">
         <!-- Ignore -->
     </xsl:template>
     <xsl:template match="@*|node()">

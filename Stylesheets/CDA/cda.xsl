@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   Title: Lantana's CDA Stylesheet
-  Original Filename: CDA-Lantana.xsl
+  Original Filename: cda.xsl
   Usage: This stylesheet is designed for use with clinical documents
 
   Revision History: 2015-08-31 Eric Parapini - Original Commit
@@ -1534,11 +1534,11 @@ limitations under the License.
         <xsl:when test="$attr-name = 'styleCode'">
           <xsl:apply-templates select="."/>
         </xsl:when>
-        <xsl:when
+        <!--<xsl:when
           test="not(document('')/xsl:stylesheet/xsl:variable[@name = 'table-elem-attrs']/in:tableElems/in:elem[@name = $elem-name]/in:attr[@name = $attr-name])">
           <xsl:message><xsl:value-of select="$attr-name"/> is not legal in <xsl:value-of
               select="$elem-name"/></xsl:message>
-        </xsl:when>
+        </xsl:when>-->
         <xsl:when test="not($source = $scrubbedSource)">
           <p>
             <xsl:value-of select="$malicious-content-warning"/>

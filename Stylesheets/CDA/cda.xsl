@@ -32,6 +32,7 @@
   Revision History: 2016-06-08 Eric Parapini - Removed Emergency Contact Table of Contents
   Revision History: 2016-08-06 Eric Parapini - Table of Contents Drag and Drop
   Revision History: 2016-08-08 Eric Parapini - Document Type shows up in rendered view
+  Revision History: 2016-11-14 Eric Parapini - Further Separating supporting libraries
 
   This style sheet is based on a major revision of the original CDA XSL, which was made possible thanks to the contributions of:
   - Jingdong Li

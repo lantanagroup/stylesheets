@@ -320,7 +320,11 @@ limitations under the License.
                     </xsl:if>
                   </xsl:when>
                   <xsl:when test="n1:assignedAuthoringDevice/n1:softwareName">
-                    <xsl:value-of select="n1:assignedAuthoringDevice/n1:softwareName"/>
+                    <xsl:call-template name="show-code">
+                      <xsl:with-param name="code"
+                        select="n1:assignedAuthoringDevice/n1:softwareName"/>
+                    </xsl:call-template>
+
                   </xsl:when>
                   <xsl:when test="n1:representedOrganization">
                     <xsl:call-template name="show-name">
@@ -1304,7 +1308,9 @@ limitations under the License.
               </xsl:if>
             </xsl:when>
             <xsl:when test="n1:assignedAuthoringDevice/n1:softwareName">
-              <xsl:value-of select="n1:assignedAuthoringDevice/n1:softwareName"/>
+              <xsl:call-template name="show-code">
+                <xsl:with-param name="code" select="n1:assignedAuthoringDevice/n1:softwareName"/>
+              </xsl:call-template>
             </xsl:when>
             <xsl:otherwise>
               <xsl:for-each select="n1:id">

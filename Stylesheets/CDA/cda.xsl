@@ -1581,6 +1581,14 @@ limitations under the License.
       <xsl:apply-templates/>
     </span>
   </xsl:template>
+    
+    <!-- SG: added this to get linkHtml to render -->
+    <xsl:template match="n1:linkHtml">
+        <xsl:element name="a">
+            <xsl:copy-of select="@* | text()" />
+        </xsl:element>
+    </xsl:template>
+    
   <!--   RenderMultiMedia
      this currently only handles GIF's and JPEG's.  It could, however,
      be extended by including other image MIME types in the predicate

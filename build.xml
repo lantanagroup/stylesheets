@@ -2,7 +2,7 @@
     <description> Tasks for compiling stylesheets into multiple output formats (ex: combined, href
         references, etc.) </description>
 
-    <property name="git_repo" value="https://github.com/lantanagroup/stylesheets"/>
+<!--    <property name="git_repo" value="https://github.com/lantanagroup/stylesheets"/>
 
     <macrodef name="git">
         <attribute name="command"/>
@@ -46,7 +46,7 @@
             </args>
         </git>
         <delete dir="Samples/out" />
-    </target>
+    </target>-->
     
     <target name="compile">
         <property name="cda-lantana-styles" location="Stylesheets/CDA/cda-style.xsl"/>
@@ -72,6 +72,6 @@
         </xslt>
     </target>
 
-    <target name="dist" depends="compile,samples" description="generate the distribution">
+    <target name="dist" depends="compile" description="generate the distribution">
     </target>
 </project>

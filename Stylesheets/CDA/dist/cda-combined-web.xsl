@@ -309,7 +309,10 @@ limitations under the License.
                     </xsl:if>
                   </xsl:when>
                   <xsl:when test="n1:assignedAuthoringDevice/n1:softwareName">
-                    <xsl:value-of select="n1:assignedAuthoringDevice/n1:softwareName"/>
+                    <xsl:call-template name="show-code">
+                      <xsl:with-param name="code" select="n1:assignedAuthoringDevice/n1:softwareName"/>
+                    </xsl:call-template>
+
                   </xsl:when>
                   <xsl:when test="n1:representedOrganization">
                     <xsl:call-template name="show-name">
@@ -1206,14 +1209,14 @@ limitations under the License.
           </xsl:when>
           <xsl:otherwise>
             <iframe name="nonXMLBody" id="nonXMLBody" WIDTH="80%" HEIGHT="600" src="{$source}">
-<html>
+              <html>
                 <body>
                   <object data="{$source}" type="{$mediaType}">
                     <embed src="{$source}" type="{$mediaType}"/>
                   </object>
                 </body>
               </html>
-</iframe>
+            </iframe>
           </xsl:otherwise>
         </xsl:choose>
       </xsl:when>
@@ -1245,7 +1248,6 @@ limitations under the License.
         </div>
       </xsl:for-each>
     </div>
-    <!--</div>-->
   </xsl:template>
   <!-- top level section title -->
   <xsl:template xmlns:n1="urn:hl7-org:v3" xmlns:in="urn:lantana-com:inline-variable-data" name="section-title">
@@ -1254,7 +1256,6 @@ limitations under the License.
       <xsl:value-of select="$title"/>
     </h1>
   </xsl:template>
-
 
   <!-- section author -->
   <xsl:template xmlns:n1="urn:hl7-org:v3" xmlns:in="urn:lantana-com:inline-variable-data" name="section-author">
@@ -1277,7 +1278,9 @@ limitations under the License.
               </xsl:if>
             </xsl:when>
             <xsl:when test="n1:assignedAuthoringDevice/n1:softwareName">
-              <xsl:value-of select="n1:assignedAuthoringDevice/n1:softwareName"/>
+              <xsl:call-template name="show-code">
+                <xsl:with-param name="code" select="n1:assignedAuthoringDevice/n1:softwareName"/>
+              </xsl:call-template>
             </xsl:when>
             <xsl:otherwise>
               <xsl:for-each select="n1:id">
@@ -1487,6 +1490,11 @@ limitations under the License.
     <xsl:variable name="elem-name" select="local-name(.)"/>
     <!-- This assigns all outputted elements the cda-render class -->
     <xsl:attribute name="class">cda-render</xsl:attribute>
+    <xsl:choose>
+      <xsl:when test="$elem-name = 'table'">
+        <xsl:attribute name="class">table table-striped table-hover</xsl:attribute>
+      </xsl:when>
+    </xsl:choose>
     <xsl:for-each select="@*">
       <xsl:variable name="attr-name" select="local-name(.)"/>
       <xsl:variable name="source" select="."/>
@@ -1526,10 +1534,10 @@ limitations under the License.
 
   <xsl:template xmlns:n1="urn:hl7-org:v3" xmlns:in="urn:lantana-com:inline-variable-data" match="n1:table">
     <div class="table-responsive">
-      <table class="table table-striped table-hover">
-        <!--<xsl:call-template name="output-attrs"/>-->
+      <xsl:element name="{local-name()}">
+        <xsl:call-template name="output-attrs"/>
         <xsl:apply-templates/>
-      </table>
+      </xsl:element>
     </div>
   </xsl:template>
 
@@ -1545,6 +1553,14 @@ limitations under the License.
       <xsl:apply-templates/>
     </span>
   </xsl:template>
+    
+    <!-- SG: added this to get linkHtml to render -->
+    <xsl:template xmlns:n1="urn:hl7-org:v3" xmlns:in="urn:lantana-com:inline-variable-data" match="n1:linkHtml">
+        <xsl:element name="a">
+            <xsl:copy-of select="@* | text()"/>
+        </xsl:element>
+    </xsl:template>
+    
   <!--   RenderMultiMedia
      this currently only handles GIF's and JPEG's.  It could, however,
      be extended by including other image MIME types in the predicate
@@ -3506,7 +3522,13 @@ limitations under the License.
       <xsl:when test="$code-type = '11512-1'">
         <xsl:text>Speech-language pathology Progress note</xsl:text>
       </xsl:when>
-
+        <xsl:when test="$code-type = '55182-0'">
+            <xsl:text>Quality Measure Report</xsl:text>
+        </xsl:when>
+      <xsl:otherwise>
+        <xsl:text>CDA Document:  </xsl:text>
+        <xsl:value-of select="$code-type"/>
+      </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
 <xsl:template xmlns:xs="http://www.w3.org/2001/XMLSchema" name="lantana-css">

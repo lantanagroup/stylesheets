@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   Title: Lantana's CDA Stylesheet
-  Original Filename: CDA-Lantana.xsl
+  Original Filename: cda.xsl
   Usage: This stylesheet is designed for use with clinical documents
 
   Revision History: 2015-08-31 Eric Parapini - Original Commit
@@ -32,6 +32,7 @@
   Revision History: 2016-06-08 Eric Parapini - Removed Emergency Contact Table of Contents
   Revision History: 2016-08-06 Eric Parapini - Table of Contents Drag and Drop
   Revision History: 2016-08-08 Eric Parapini - Document Type shows up in rendered view
+  Revision History: 2016-11-14 Eric Parapini - Further Separating supporting libraries
 
   This style sheet is based on a major revision of the original CDA XSL, which was made possible thanks to the contributions of:
   - Jingdong Li
@@ -62,7 +63,8 @@ limitations under the License.
   xmlns:n1="urn:hl7-org:v3" xmlns:in="urn:lantana-com:inline-variable-data">
   <!-- This is where all the styles are loaded -->
   <xsl:include href="cda-style.xsl"/>
-
+  <xsl:include href="cda-js-dependencies.xsl"/>
+  
   <xsl:output method="html" indent="yes" version="4.01" encoding="UTF-8"
     doctype-system="http://www.w3.org/TR/html4/strict.dtd"
     doctype-public="-//W3C//DTD HTML 4.01//EN"/>
@@ -1539,11 +1541,11 @@ limitations under the License.
         <xsl:when test="$attr-name = 'styleCode'">
           <xsl:apply-templates select="."/>
         </xsl:when>
-        <xsl:when
+        <!--<xsl:when
           test="not(document('')/xsl:stylesheet/xsl:variable[@name = 'table-elem-attrs']/in:tableElems/in:elem[@name = $elem-name]/in:attr[@name = $attr-name])">
           <xsl:message><xsl:value-of select="$attr-name"/> is not legal in <xsl:value-of
               select="$elem-name"/></xsl:message>
-        </xsl:when>
+        </xsl:when>-->
         <xsl:when test="not($source = $scrubbedSource)">
           <p>
             <xsl:value-of select="$malicious-content-warning"/>

@@ -1,77 +1,18 @@
 <project name="MyProject" default="dist" basedir=".">
-    <description> Tasks for compiling stylesheets into multiple output formats (ex: combined, href
-        references, etc.) </description>
-
-<!--    <property name="git_repo" value="https://github.com/lantanagroup/stylesheets"/>
-
-    <macrodef name="git">
-        <attribute name="command"/>
-        <attribute name="dir" default=""/>
-        <element name="args" optional="true"/>
-        <sequential>
-            <echo message="git @{command}"/>
-            <exec executable="git" dir="@{dir}">
-                <arg value="@{command}"/>
-                <args/>
-            </exec>
-        </sequential>
-    </macrodef>
-
-    <target name="samples">
-        <git command="clone">
-            <args>
-                <arg value="${git_repo}"/>
-                <arg value="Samples/out"/>
-            </args>
-        </git>
-        <git command="checkout" dir="Samples/out">
-            <args>
-                <arg value="gh-pages" />
-            </args>
-        </git>
-        <xslt in="Samples/index.html" style="samples.xsl" out="Samples/out/index.html" />
-        <git command="add" dir="Samples/out">
-            <args>
-                <arg value="*" />
-            </args>
-        </git>
-        <git command="commit" dir="Samples/out">
-            <args>
-                <arg value="-m 'Updating samples automatically from build.xml'" />
-            </args>
-        </git>
-        <git command="push" dir="Samples/out">
-            <args>
-                <arg value="origin" />
-            </args>
-        </git>
-        <delete dir="Samples/out" />
-    </target>-->
+    <description> Simple Compilation with 3 Files </description>
     
     <target name="compile">
-        <property name="cda-lantana-styles" location="Stylesheets/CDA/cda-style.xsl"/>
+        <property name="cda-style" location="Stylesheets/CDA/cda-style.xsl"/>
+        <property name="cda-js-dependencies" location="Stylesheets/CDA/cda-js-dependencies.xsl"/>
+        
+        <!-- Create the massive combined document -->
         <xslt in="Stylesheets/CDA/cda.xsl" style="compile.xsl"
             out="Stylesheets/CDA/dist/cda-combined.xsl" force="true">
-            <param name="combineFile" expression="${cda-lantana-styles}" type="STRING"/>
-        </xslt>
-        <xslt in="Stylesheets/CDA/cda.xsl" style="compile.xsl"
-            out="Stylesheets/CDA/dist/cda-combined-web.xsl" force="true">
-            <param name="combineFile" expression="${cda-lantana-styles}" type="STRING"/>
-            <param name="bootstrap-css-cdn"
-                expression="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css"
-                type="STRING"/>
-            <param name="bootstrap-js-cdn"
-                expression="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"
-                type="STRING"/>
-            <param name="jquery-js-cdn"
-                expression="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"
-                type="STRING"/>
-            <param name="jquery-ui-js-cdn"
-                expression="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"
-                type="STRING"/>
+            <param name="styleFile" expression="${cda-style}" type="STRING"/>
+            <param name="jsFile" expression="${cda-js-dependencies}" type="STRING"/>
         </xslt>
     </target>
 
-    <target name="dist" depends="compile" description="generate the distribution">
+    <target name="dist" depends="compile" description="Generate the CDA Combined File">
     </target>
 </project>

@@ -34,6 +34,5 @@
         </xslt>
     </target>
 
-    <target name="dist" depends="compile" description="Generate the CDA Combined File">
-    </target>
+    <target name="dist" depends="compile" description="Generate the CDA Combined File"/>
 </project>

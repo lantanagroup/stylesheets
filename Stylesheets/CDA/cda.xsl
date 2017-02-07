@@ -64,7 +64,7 @@ limitations under the License.
   <!-- This is where all the styles are loaded -->
   <xsl:include href="cda-style.xsl"/>
   <xsl:include href="cda-js-dependencies.xsl"/>
-  
+
   <xsl:output method="html" indent="yes" version="4.01" encoding="UTF-8"
     doctype-system="http://www.w3.org/TR/html4/strict.dtd"
     doctype-public="-//W3C//DTD HTML 4.01//EN"/>
@@ -1347,22 +1347,27 @@ limitations under the License.
   </xsl:template>
   <!--   paragraph  -->
   <xsl:template match="n1:paragraph">
-    <p>
+    <xsl:element name="p">
+      <xsl:call-template name="output-attrs"/>
       <xsl:apply-templates/>
-    </p>
+    </xsl:element>
   </xsl:template>
   <!--   pre format  -->
   <xsl:template match="n1:pre">
-    <pre><xsl:apply-templates/></pre>
+    <xsl:element name="pre">
+      <xsl:call-template name="output-attrs"/>
+      <xsl:apply-templates/>
+    </xsl:element>
   </xsl:template>
   <!--   Content w/ deleted text is hidden -->
   <xsl:template match="n1:content[@revised = 'delete']"/>
   <!--   content  -->
   <xsl:template match="n1:content">
-    <span>
-      <xsl:apply-templates select="@styleCode"/>
+    <xsl:element name="content">
+      <xsl:call-template name="output-attrs"/>
+      <!--<xsl:apply-templates select="@styleCode"/>-->
       <xsl:apply-templates/>
-    </span>
+    </xsl:element>
   </xsl:template>
   <!-- line break -->
   <xsl:template match="n1:br">
@@ -1517,7 +1522,7 @@ limitations under the License.
   <xsl:template name="output-attrs">
     <xsl:variable name="elem-name" select="local-name(.)"/>
     <!-- This assigns all outputted elements the cda-render class -->
-    <xsl:attribute name="class">cda-render</xsl:attribute>
+    <!-- <xsl:attribute name="class">cda-render</xsl:attribute>-->
     <xsl:choose>
       <xsl:when test="$elem-name = 'table'">
         <xsl:attribute name="class">table table-striped table-hover</xsl:attribute>
@@ -1583,14 +1588,14 @@ limitations under the License.
       <xsl:apply-templates/>
     </span>
   </xsl:template>
-    
-    <!-- SG: added this to get linkHtml to render -->
-    <xsl:template match="n1:linkHtml">
-        <xsl:element name="a">
-            <xsl:copy-of select="@* | text()" />
-        </xsl:element>
-    </xsl:template>
-    
+
+  <!-- SG: added this to get linkHtml to render -->
+  <xsl:template match="n1:linkHtml">
+    <xsl:element name="a">
+      <xsl:copy-of select="@* | text()"/>
+    </xsl:element>
+  </xsl:template>
+
   <!--   RenderMultiMedia
      this currently only handles GIF's and JPEG's.  It could, however,
      be extended by including other image MIME types in the predicate
@@ -1710,7 +1715,7 @@ limitations under the License.
     </xsl:attribute>
   </xsl:template>
   <!-- REMOVE HERE -->
-  <xsl:template match="//n1:*[@styleCode]">
+  <!--  <xsl:template match="//n1:*[@styleCode]">
     <xsl:if test="@styleCode = 'Bold'">
       <xsl:element name="b">
         <xsl:apply-templates/>
@@ -1764,7 +1769,7 @@ limitations under the License.
       test="not(contains(@styleCode, 'Italics') or contains(@styleCode, 'Underline') or contains(@styleCode, 'Bold'))">
       <xsl:apply-templates/>
     </xsl:if>
-  </xsl:template>
+  </xsl:template>-->
   <!-- END REMOVE HERE -->
   <!--    Superscript or Subscript   -->
   <xsl:template match="n1:sup">
@@ -3584,9 +3589,9 @@ limitations under the License.
       <xsl:when test="$code-type = '11512-1'">
         <xsl:text>Speech-language pathology Progress note</xsl:text>
       </xsl:when>
-        <xsl:when test="$code-type = '55182-0'">
-            <xsl:text>Quality Measure Report</xsl:text>
-        </xsl:when>
+      <xsl:when test="$code-type = '55182-0'">
+        <xsl:text>Quality Measure Report</xsl:text>
+      </xsl:when>
       <xsl:otherwise>
         <xsl:text>CDA Document:  </xsl:text>
         <xsl:value-of select="$code-type"/>

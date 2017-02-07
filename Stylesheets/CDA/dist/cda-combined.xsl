@@ -58,7 +58,7 @@ limitations under the License.
   <!-- This is where all the styles are loaded -->
   
   
-  
+
   <xsl:output xmlns:n1="urn:hl7-org:v3" xmlns:in="urn:lantana-com:inline-variable-data" method="html" indent="yes" version="4.01" encoding="UTF-8" doctype-system="http://www.w3.org/TR/html4/strict.dtd" doctype-public="-//W3C//DTD HTML 4.01//EN"/>
   <xsl:param xmlns:n1="urn:hl7-org:v3" xmlns:in="urn:lantana-com:inline-variable-data" name="limit-external-images" select="'yes'"/>
   <!-- A vertical bar separated list of URI prefixes, such as "http://www.example.com|https://www.example.com" -->
@@ -1319,24 +1319,27 @@ limitations under the License.
   </xsl:template>
   <!--   paragraph  -->
   <xsl:template xmlns:n1="urn:hl7-org:v3" xmlns:in="urn:lantana-com:inline-variable-data" match="n1:paragraph">
-    <p>
+    <xsl:element name="p">
+      <xsl:call-template name="output-attrs"/>
       <xsl:apply-templates/>
-    </p>
+    </xsl:element>
   </xsl:template>
   <!--   pre format  -->
   <xsl:template xmlns:n1="urn:hl7-org:v3" xmlns:in="urn:lantana-com:inline-variable-data" match="n1:pre">
-    <pre>
-<xsl:apply-templates/>
-</pre>
+    <xsl:element name="pre">
+      <xsl:call-template name="output-attrs"/>
+      <xsl:apply-templates/>
+    </xsl:element>
   </xsl:template>
   <!--   Content w/ deleted text is hidden -->
   <xsl:template xmlns:n1="urn:hl7-org:v3" xmlns:in="urn:lantana-com:inline-variable-data" match="n1:content[@revised = 'delete']"/>
   <!--   content  -->
   <xsl:template xmlns:n1="urn:hl7-org:v3" xmlns:in="urn:lantana-com:inline-variable-data" match="n1:content">
-    <span>
-      <xsl:apply-templates select="@styleCode"/>
+    <xsl:element name="content">
+      <xsl:call-template name="output-attrs"/>
+      <!--<xsl:apply-templates select="@styleCode"/>-->
       <xsl:apply-templates/>
-    </span>
+    </xsl:element>
   </xsl:template>
   <!-- line break -->
   <xsl:template xmlns:n1="urn:hl7-org:v3" xmlns:in="urn:lantana-com:inline-variable-data" match="n1:br">
@@ -1555,14 +1558,14 @@ limitations under the License.
       <xsl:apply-templates/>
     </span>
   </xsl:template>
-    
-    <!-- SG: added this to get linkHtml to render -->
-    <xsl:template xmlns:n1="urn:hl7-org:v3" xmlns:in="urn:lantana-com:inline-variable-data" match="n1:linkHtml">
-        <xsl:element name="a">
-            <xsl:copy-of select="@* | text()"/>
-        </xsl:element>
-    </xsl:template>
-    
+
+  <!-- SG: added this to get linkHtml to render -->
+  <xsl:template xmlns:n1="urn:hl7-org:v3" xmlns:in="urn:lantana-com:inline-variable-data" match="n1:linkHtml">
+    <xsl:element name="a">
+      <xsl:copy-of select="@* | text()"/>
+    </xsl:element>
+  </xsl:template>
+
   <!--   RenderMultiMedia
      this currently only handles GIF's and JPEG's.  It could, however,
      be extended by including other image MIME types in the predicate
@@ -1670,12 +1673,12 @@ limitations under the License.
      Supports Bold, Underline and Italics display
      -->
   <xsl:template xmlns:n1="urn:hl7-org:v3" xmlns:in="urn:lantana-com:inline-variable-data" match="@styleCode">
-    <xsl:attribute name="class">
+    <xsl:attribute name="styleCode">
       <xsl:value-of select="."/>
     </xsl:attribute>
   </xsl:template>
   <!-- REMOVE HERE -->
-  <xsl:template xmlns:n1="urn:hl7-org:v3" xmlns:in="urn:lantana-com:inline-variable-data" match="//n1:*[@styleCode]">
+  <!--  <xsl:template match="//n1:*[@styleCode]">
     <xsl:if test="@styleCode = 'Bold'">
       <xsl:element name="b">
         <xsl:apply-templates/>
@@ -1691,28 +1694,32 @@ limitations under the License.
         <xsl:apply-templates/>
       </xsl:element>
     </xsl:if>
-    <xsl:if test="contains(@styleCode, 'Bold') and contains(@styleCode, 'Italics') and not(contains(@styleCode, 'Underline'))">
+    <xsl:if
+      test="contains(@styleCode, 'Bold') and contains(@styleCode, 'Italics') and not(contains(@styleCode, 'Underline'))">
       <xsl:element name="b">
         <xsl:element name="i">
           <xsl:apply-templates/>
         </xsl:element>
       </xsl:element>
     </xsl:if>
-    <xsl:if test="contains(@styleCode, 'Bold') and contains(@styleCode, 'Underline') and not(contains(@styleCode, 'Italics'))">
+    <xsl:if
+      test="contains(@styleCode, 'Bold') and contains(@styleCode, 'Underline') and not(contains(@styleCode, 'Italics'))">
       <xsl:element name="b">
         <xsl:element name="u">
           <xsl:apply-templates/>
         </xsl:element>
       </xsl:element>
     </xsl:if>
-    <xsl:if test="contains(@styleCode, 'Italics') and contains(@styleCode, 'Underline') and not(contains(@styleCode, 'Bold'))">
+    <xsl:if
+      test="contains(@styleCode, 'Italics') and contains(@styleCode, 'Underline') and not(contains(@styleCode, 'Bold'))">
       <xsl:element name="i">
         <xsl:element name="u">
           <xsl:apply-templates/>
         </xsl:element>
       </xsl:element>
     </xsl:if>
-    <xsl:if test="contains(@styleCode, 'Italics') and contains(@styleCode, 'Underline') and contains(@styleCode, 'Bold')">
+    <xsl:if
+      test="contains(@styleCode, 'Italics') and contains(@styleCode, 'Underline') and contains(@styleCode, 'Bold')">
       <xsl:element name="b">
         <xsl:element name="i">
           <xsl:element name="u">
@@ -1721,10 +1728,11 @@ limitations under the License.
         </xsl:element>
       </xsl:element>
     </xsl:if>
-    <xsl:if test="not(contains(@styleCode, 'Italics') or contains(@styleCode, 'Underline') or contains(@styleCode, 'Bold'))">
+    <xsl:if
+      test="not(contains(@styleCode, 'Italics') or contains(@styleCode, 'Underline') or contains(@styleCode, 'Bold'))">
       <xsl:apply-templates/>
     </xsl:if>
-  </xsl:template>
+  </xsl:template>-->
   <!-- END REMOVE HERE -->
   <!--    Superscript or Subscript   -->
   <xsl:template xmlns:n1="urn:hl7-org:v3" xmlns:in="urn:lantana-com:inline-variable-data" match="n1:sup">
@@ -3524,9 +3532,9 @@ limitations under the License.
       <xsl:when test="$code-type = '11512-1'">
         <xsl:text>Speech-language pathology Progress note</xsl:text>
       </xsl:when>
-        <xsl:when test="$code-type = '55182-0'">
-            <xsl:text>Quality Measure Report</xsl:text>
-        </xsl:when>
+      <xsl:when test="$code-type = '55182-0'">
+        <xsl:text>Quality Measure Report</xsl:text>
+      </xsl:when>
       <xsl:otherwise>
         <xsl:text>CDA Document:  </xsl:text>
         <xsl:value-of select="$code-type"/>

@@ -9,6 +9,10 @@
     <xsl:namespace-alias stylesheet-prefix="axsl" result-prefix="xsl"/>
     <xsl:param name="styleFile" select="'Stylesheets/CDA/cda-style.xsl'" />
     <xsl:param name="jsFile" select="'Sytlesheets/CDA/cda-js-dependencies.xsl'" />
+    <xsl:param name="bootstrap-css-cdn" />
+    <xsl:param name="bootstrap-js-cdn" />
+    <xsl:param name="jquery-js-cdn" />
+    <xsl:param name="jquery-ui-js-cdn" />
     <xsl:template match="/">
         <xsl:apply-templates />
     </xsl:template>
@@ -19,6 +23,62 @@
             <xsl:apply-templates select="document($styleFile)/xsl:stylesheet/*" />
             <xsl:apply-templates select="document($jsFile)/xsl:stylesheet/*"/>
         </axsl:stylesheet>
+    </xsl:template>
+    <xsl:template match="xsl:template[@name='bootstrap-css']/style">
+        <xsl:choose>
+            <xsl:when test="$bootstrap-css-cdn">
+                <link rel="stylesheet">
+                    <xsl:attribute name="href"><xsl:value-of select="$bootstrap-css-cdn"/></xsl:attribute>
+                </link>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:copy>
+                    <xsl:apply-templates select="@*|node()"/>
+                </xsl:copy>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+    <xsl:template match="xsl:template[@name='bootstrap-javascript']/script">
+        <xsl:choose>
+            <xsl:when test="$bootstrap-js-cdn">
+                <script type="text/javascript">
+                    <xsl:attribute name="src"><xsl:value-of select="$bootstrap-js-cdn"/></xsl:attribute>
+                </script>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:copy>
+                    <xsl:apply-templates select="@*|node()"/>
+                </xsl:copy>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+    <xsl:template match="xsl:template[@name='jquery']/script">
+        <xsl:choose>
+            <xsl:when test="$jquery-js-cdn">
+                <script type="text/javascript">
+                    <xsl:attribute name="src"><xsl:value-of select="$jquery-js-cdn"/></xsl:attribute>
+                </script>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:copy>
+                    <xsl:apply-templates select="@*|node()"/>
+                </xsl:copy>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+    <xsl:template match="xsl:template[@name='jquery-ui']/script">
+        <xsl:choose>
+            <xsl:when test="$jquery-ui-js-cdn">
+                <script type="text/javascript">
+                    <xsl:attribute name="src"><xsl:value-of select="$jquery-ui-js-cdn"/></xsl:attribute>
+                </script>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:copy>
+                    <xsl:apply-templates select="@*|node()"/>
+                </xsl:copy>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
     <xsl:template match="xsl:include[@href='cda-style.xsl']">
         <!-- Ignore -->

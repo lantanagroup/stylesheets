@@ -11,6 +11,27 @@
             <param name="styleFile" expression="${cda-style}" type="STRING"/>
             <param name="jsFile" expression="${cda-js-dependencies}" type="STRING"/>
         </xslt>
+        
+        <!-- Create the web edition -->
+        <xslt in="Stylesheets/CDA/cda.xsl" style="compile.xsl"
+            out="Stylesheets/CDA/dist/cda-combined-web.xsl" force="true">
+            <param name="styleFile" expression="${cda-style}" type="STRING"/>
+            <param name="jsFile" expression="${cda-js-dependencies}" type="STRING"/>
+            
+            <!-- Extra Web variables -->
+            <param name="bootstrap-css-cdn"
+                expression="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css"
+                type="STRING"/>
+            <param name="bootstrap-js-cdn"
+                expression="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"
+                type="STRING"/>
+            <param name="jquery-js-cdn"
+                expression="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"
+                type="STRING"/>
+            <param name="jquery-ui-js-cdn"
+                expression="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"
+                type="STRING"/>
+        </xslt>
     </target>
 
     <target name="dist" depends="compile" description="Generate the CDA Combined File">

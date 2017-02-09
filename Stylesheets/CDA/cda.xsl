@@ -3593,6 +3593,9 @@ limitations under the License.
       <xsl:when test="$code-type = '55182-0'">
         <xsl:text>Quality Measure Report</xsl:text>
       </xsl:when>
+      <xsl:when test="$code-type = '51897-7'">
+        <xsl:text>Healthcare Associated Infection Report</xsl:text>
+      </xsl:when>
       <xsl:otherwise>
         <xsl:text>CDA Document:  </xsl:text>
         <xsl:value-of select="$code-type"/>

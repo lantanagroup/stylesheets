@@ -32,6 +32,7 @@
   Revision History: 2016-08-06 Eric Parapini - Table of Contents Drag and Drop
   Revision History: 2016-08-08 Eric Parapini - Document Type shows up in rendered view
   Revision History: 2016-11-14 Eric Parapini - Further Separating supporting libraries
+  Revision History: 2017-02-09 Eric Parapini - Fixed Bug removing styleCodes
 
   This style sheet is based on a major revision of the original CDA XSL, which was made possible thanks to the contributions of:
   - Jingdong Li
@@ -1494,7 +1495,7 @@ limitations under the License.
   <xsl:template xmlns:n1="urn:hl7-org:v3" xmlns:in="urn:lantana-com:inline-variable-data" name="output-attrs">
     <xsl:variable name="elem-name" select="local-name(.)"/>
     <!-- This assigns all outputted elements the cda-render class -->
-    <xsl:attribute name="class">cda-render</xsl:attribute>
+    <!-- <xsl:attribute name="class">cda-render</xsl:attribute>-->
     <xsl:choose>
       <xsl:when test="$elem-name = 'table'">
         <xsl:attribute name="class">table table-striped table-hover</xsl:attribute>
@@ -1546,7 +1547,7 @@ limitations under the License.
     </div>
   </xsl:template>
 
-  <xsl:template xmlns:n1="urn:hl7-org:v3" xmlns:in="urn:lantana-com:inline-variable-data" match="n1:thead | n1:tfoot | n1:tbody | n1:colgroup | n1:col | n1:tr | n1:th | n1:td">
+  <xsl:template xmlns:n1="urn:hl7-org:v3" xmlns:in="urn:lantana-com:inline-variable-data" match="n1:thead | n1:tfoot | n1:tbody | n1:colgroup | n1:col | n1:tr | n1:th | n1:td ">
     <xsl:element name="{local-name()}">
       <xsl:call-template name="output-attrs"/>
       <xsl:apply-templates/>

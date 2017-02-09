@@ -33,6 +33,7 @@
   Revision History: 2016-08-06 Eric Parapini - Table of Contents Drag and Drop
   Revision History: 2016-08-08 Eric Parapini - Document Type shows up in rendered view
   Revision History: 2016-11-14 Eric Parapini - Further Separating supporting libraries
+  Revision History: 2017-02-09 Eric Parapini - Fixed Bug removing styleCodes
 
   This style sheet is based on a major revision of the original CDA XSL, which was made possible thanks to the contributions of:
   - Jingdong Li
@@ -1576,7 +1577,7 @@ limitations under the License.
   </xsl:template>
 
   <xsl:template
-    match="n1:thead | n1:tfoot | n1:tbody | n1:colgroup | n1:col | n1:tr | n1:th | n1:td">
+    match="n1:thead | n1:tfoot | n1:tbody | n1:colgroup | n1:col | n1:tr | n1:th | n1:td ">
     <xsl:element name="{local-name()}">
       <xsl:call-template name="output-attrs"/>
       <xsl:apply-templates/>
@@ -1710,7 +1711,7 @@ limitations under the License.
      Supports Bold, Underline and Italics display
      -->
   <xsl:template match="@styleCode">
-    <xsl:attribute name="class">
+    <xsl:attribute name="styleCode">
       <xsl:value-of select="."/>
     </xsl:attribute>
   </xsl:template>

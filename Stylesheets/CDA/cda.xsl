@@ -156,9 +156,7 @@ limitations under the License.
                 </xsl:for-each>
               </div>
               <div class="cda-render navbar-header patient-header"> Document Type:
-                  <xsl:call-template name="translate-doc-type">
-                  <xsl:with-param name="code-type" select="/n1:ClinicalDocument/n1:code[1]/@code"/>
-                </xsl:call-template>
+                  <xsl:value-of select="$title"/>
               </div>
             </div>
 

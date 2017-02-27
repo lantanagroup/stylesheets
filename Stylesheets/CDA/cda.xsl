@@ -34,6 +34,8 @@
   Revision History: 2016-08-08 Eric Parapini - Document Type shows up in rendered view
   Revision History: 2016-11-14 Eric Parapini - Further Separating supporting libraries
   Revision History: 2017-02-09 Eric Parapini - Fixed Bug removing styleCodes
+  Revision History: 2017-02-24 Eric Parapini - Fixed titles
+  Revision History: 2017-02-26 Eric Parapini - Cleaned up some code
 
   This style sheet is based on a major revision of the original CDA XSL, which was made possible thanks to the contributions of:
   - Jingdong Li
@@ -1588,7 +1590,6 @@ limitations under the License.
     </span>
   </xsl:template>
 
-  <!-- SG: added this to get linkHtml to render -->
   <xsl:template match="n1:linkHtml">
     <xsl:element name="a">
       <xsl:copy-of select="@* | text()"/>
@@ -1713,63 +1714,6 @@ limitations under the License.
       <xsl:value-of select="."/>
     </xsl:attribute>
   </xsl:template>
-  <!-- REMOVE HERE -->
-  <!--  <xsl:template match="//n1:*[@styleCode]">
-    <xsl:if test="@styleCode = 'Bold'">
-      <xsl:element name="b">
-        <xsl:apply-templates/>
-      </xsl:element>
-    </xsl:if>
-    <xsl:if test="@styleCode = 'Italics'">
-      <xsl:element name="i">
-        <xsl:apply-templates/>
-      </xsl:element>
-    </xsl:if>
-    <xsl:if test="@styleCode = 'Underline'">
-      <xsl:element name="u">
-        <xsl:apply-templates/>
-      </xsl:element>
-    </xsl:if>
-    <xsl:if
-      test="contains(@styleCode, 'Bold') and contains(@styleCode, 'Italics') and not(contains(@styleCode, 'Underline'))">
-      <xsl:element name="b">
-        <xsl:element name="i">
-          <xsl:apply-templates/>
-        </xsl:element>
-      </xsl:element>
-    </xsl:if>
-    <xsl:if
-      test="contains(@styleCode, 'Bold') and contains(@styleCode, 'Underline') and not(contains(@styleCode, 'Italics'))">
-      <xsl:element name="b">
-        <xsl:element name="u">
-          <xsl:apply-templates/>
-        </xsl:element>
-      </xsl:element>
-    </xsl:if>
-    <xsl:if
-      test="contains(@styleCode, 'Italics') and contains(@styleCode, 'Underline') and not(contains(@styleCode, 'Bold'))">
-      <xsl:element name="i">
-        <xsl:element name="u">
-          <xsl:apply-templates/>
-        </xsl:element>
-      </xsl:element>
-    </xsl:if>
-    <xsl:if
-      test="contains(@styleCode, 'Italics') and contains(@styleCode, 'Underline') and contains(@styleCode, 'Bold')">
-      <xsl:element name="b">
-        <xsl:element name="i">
-          <xsl:element name="u">
-            <xsl:apply-templates/>
-          </xsl:element>
-        </xsl:element>
-      </xsl:element>
-    </xsl:if>
-    <xsl:if
-      test="not(contains(@styleCode, 'Italics') or contains(@styleCode, 'Underline') or contains(@styleCode, 'Bold'))">
-      <xsl:apply-templates/>
-    </xsl:if>
-  </xsl:template>-->
-  <!-- END REMOVE HERE -->
   <!--    Superscript or Subscript   -->
   <xsl:template match="n1:sup">
     <xsl:element name="sup">
@@ -2489,46 +2433,6 @@ limitations under the License.
     <xsl:param name="date"/>
     <!-- month -->
     <xsl:variable name="month" select="substring($date, 5, 2)"/>
-    <!--
-    <xsl:choose>
-      <xsl:when test="$month = '01'">
-        <xsl:text>January </xsl:text>
-      </xsl:when>
-      <xsl:when test="$month = '02'">
-        <xsl:text>February </xsl:text>
-      </xsl:when>
-      <xsl:when test="$month = '03'">
-        <xsl:text>March </xsl:text>
-      </xsl:when>
-      <xsl:when test="$month = '04'">
-        <xsl:text>April </xsl:text>
-      </xsl:when>
-      <xsl:when test="$month = '05'">
-        <xsl:text>May </xsl:text>
-      </xsl:when>
-      <xsl:when test="$month = '06'">
-        <xsl:text>June </xsl:text>
-      </xsl:when>
-      <xsl:when test="$month = '07'">
-        <xsl:text>July </xsl:text>
-      </xsl:when>
-      <xsl:when test="$month = '08'">
-        <xsl:text>August </xsl:text>
-      </xsl:when>
-      <xsl:when test="$month = '09'">
-        <xsl:text>September </xsl:text>
-      </xsl:when>
-      <xsl:when test="$month = '10'">
-        <xsl:text>October </xsl:text>
-      </xsl:when>
-      <xsl:when test="$month = '11'">
-        <xsl:text>November </xsl:text>
-      </xsl:when>
-      <xsl:when test="$month = '12'">
-        <xsl:text>December </xsl:text>
-      </xsl:when>
-    </xsl:choose>
-    -->
     <!-- day -->
     <xsl:value-of select="$month"/>
     <xsl:text>/</xsl:text>

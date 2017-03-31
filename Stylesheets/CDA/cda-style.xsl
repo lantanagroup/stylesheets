@@ -17,24 +17,31 @@
         font-weight:bold;
         text-align:center;
         text-transform: uppercase;
-        padding-top: 55px;
       }
 
-      /* nav bar formatting */
-      .cda-render .patient-header {
-        height: 50px;
-        padding: 15px 15px;
-        font-size: 1.5em;
-      }
 
       /* One-off - Table of contents formatting */
+      .cda-render .toc-header-container {
+        padding-top:0.5em;
+        border-bottom-width:0.1em;
+        border-bottom-style:solid;
+        border-bottom-color:#b3623d;
+        padding-bottom:0.5em;
+      }
+      
+      .cda-render .toc-header {
+        text-transform:uppercase;
+        color:#b3623d;
+        font-weight:bold;
+      }
+      
       .cda-render .toc {
         margin-top:3em;
-        padding: 10px 15px;
+        padding: 0px 15px;
       }
 
       .cda-render .toc-box {
-        padding-top: 80px;
+        
       }
 
 
@@ -51,7 +58,6 @@
         font-size:1.09em;
         font-weight:bold;
         text-transform: uppercase;
-        padding-top: 55px;
       }
 
       /* Re-usable - Attribute title */
@@ -134,19 +140,27 @@ $(window).resize(function(){
     $('#navbar-list-cda').height($(window).height()-100);
 });
 
-$(function() {
-  $('.cda-render a[href*="#"]:not([href="#"])').click(function() {
-    if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
-      var target = $(this.hash);
-      target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
-      if (target.length) {
-        $('html, body').animate({
-          scrollTop: target.offset().top
-        }, 1000);
-        return false;
-      }
-    }
-  });
+$(document).ready(function(){
+    $('.cda-render a[href*="#"]:not([href="#"])').bind('click.smoothscroll',function (e) {
+        e.preventDefault();
+      
+        var target = this.hash,
+        $target = $(target);
+      
+        $('html, body').stop().animate({
+            'scrollTop': $target.offset().top
+        }, 1000, 'swing', function () {
+            window.location.hash = target;
+            
+            // lets add a div in the background
+            $('<div />').css({'background':'#336b7a'}).prependTo($target).fadeIn('fast', function(){
+                $(this).fadeOut('fast', function(){
+                    $(this).remove();
+                });
+            });
+            
+        });
+    });
 });
 
 $( function() {

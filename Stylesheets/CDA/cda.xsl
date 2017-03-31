@@ -36,6 +36,7 @@
   Revision History: 2017-02-09 Eric Parapini - Fixed Bug removing styleCodes
   Revision History: 2017-02-24 Eric Parapini - Fixed titles
   Revision History: 2017-02-26 Eric Parapini - Cleaned up some code
+  Revision History: 2017-03-31 Eric Parapini - Whitespace issues fixing
 
   This style sheet is based on a major revision of the original CDA XSL, which was made possible thanks to the contributions of:
   - Jingdong Li
@@ -128,6 +129,7 @@ limitations under the License.
       <body data-spy="scroll" data-target="#navbar-cda">
 
         <div class="cda-render toc col-md-3" role="complementary">
+
           <!-- produce table of contents -->
           <xsl:if test="not(//n1:nonXMLBody)">
             <xsl:if
@@ -139,30 +141,7 @@ limitations under the License.
 
         <!-- Container: CDA Render -->
         <div class="cda-render container-fluid col-md-9 cda-render-main" role="main">
-          <nav class="cda-render navbar-default navbar-fixed-top">
-            <div class="container-fluid">
-              <xsl:if test="$logo-location">
-                <div class="col-md-1">
-                  <img src="logo.png" class="img-responsive" alt="Logo">
-                    <xsl:attribute name="src">
-                      <xsl:value-of select="$logo-location"/>
-                    </xsl:attribute>
-                  </img>
-                </div>
-              </xsl:if>
-              <div class="cda-render navbar-header patient-header">
-                <xsl:for-each select="/n1:ClinicalDocument/n1:recordTarget/n1:patientRole"> Patient:
-                    <xsl:call-template name="show-name">
-                    <xsl:with-param name="name" select="n1:patient/n1:name"/>
-                  </xsl:call-template>
-                </xsl:for-each>
-              </div>
-              <div class="cda-render navbar-header patient-header"> Document Type:
-                  <xsl:value-of select="$title"/>
-              </div>
-            </div>
 
-          </nav>
           <row>
             <h1 id="top" class="cda-title">
               <xsl:value-of select="$title"/>
@@ -204,7 +183,29 @@ limitations under the License.
   </xsl:template>
   <!-- generate table of contents -->
   <xsl:template name="make-tableofcontents">
+
     <nav class="cda-render hidden-print hidden-xs hidden-sm affix toc-box" id="navbar-cda">
+      <div class="container-fluid cda-render toc-header-container">
+        <xsl:if test="$logo-location">
+          <div class="col-md-1">
+            <img src="logo.png" class="img-responsive" alt="Logo">
+              <xsl:attribute name="src">
+                <xsl:value-of select="$logo-location"/>
+              </xsl:attribute>
+            </img>
+          </div>
+        </xsl:if>
+        <div class="cda-render toc-header">
+          <xsl:for-each select="/n1:ClinicalDocument/n1:recordTarget/n1:patientRole">
+            <xsl:call-template name="show-name">
+              <xsl:with-param name="name" select="n1:patient/n1:name"/>
+            </xsl:call-template>
+          </xsl:for-each>
+        </div>
+        <div class="cda-render toc-header">
+          <xsl:value-of select="$title"/>
+        </div>
+      </div>
       <ul class="cda-render nav nav-stacked fixed" id="navbar-list-cda">
         <li>
           <a class="cda-render lantana-toc" href="#top">BACK TO TOP</a>
@@ -1577,7 +1578,7 @@ limitations under the License.
   </xsl:template>
 
   <xsl:template
-    match="n1:thead | n1:tfoot | n1:tbody | n1:colgroup | n1:col | n1:tr | n1:th | n1:td ">
+    match="n1:thead | n1:tfoot | n1:tbody | n1:colgroup | n1:col | n1:tr | n1:th | n1:td">
     <xsl:element name="{local-name()}">
       <xsl:call-template name="output-attrs"/>
       <xsl:apply-templates/>
@@ -1874,9 +1875,8 @@ limitations under the License.
         </xsl:when>
         <xsl:otherwise>
           <div class="address-group-content">
-            <!-- TODO: Consider removing this kind of "filling in the blanks" by the rendering -->
             <span class="generated-text">
-              <xsl:text>&lt;No Information Entered in this Field&gt;</xsl:text>
+              <xsl:text>&lt;&gt;</xsl:text>
             </span>
           </div>
         </xsl:otherwise>
@@ -1896,8 +1896,7 @@ limitations under the License.
               <xsl:call-template name="translateTelecomCode">
                 <xsl:with-param name="code" select="$type"/>
               </xsl:call-template>
-            </div>
-            <div class="address-group-content">
+              <xsl:text> : </xsl:text>
               <xsl:if test="@use">
                 <xsl:text> (</xsl:text>
                 <xsl:call-template name="translateTelecomCode">
@@ -1910,7 +1909,7 @@ limitations under the License.
           </xsl:if>
         </xsl:when>
         <xsl:otherwise>
-          <xsl:text>Telecom information not available</xsl:text>
+          <xsl:text>&lt;&gt;</xsl:text>
         </xsl:otherwise>
       </xsl:choose>
     </div>

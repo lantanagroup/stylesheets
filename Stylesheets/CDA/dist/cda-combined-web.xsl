@@ -33,6 +33,9 @@
   Revision History: 2016-08-08 Eric Parapini - Document Type shows up in rendered view
   Revision History: 2016-11-14 Eric Parapini - Further Separating supporting libraries
   Revision History: 2017-02-09 Eric Parapini - Fixed Bug removing styleCodes
+  Revision History: 2017-02-24 Eric Parapini - Fixed titles
+  Revision History: 2017-02-26 Eric Parapini - Cleaned up some code
+  Revision History: 2017-03-31 Eric Parapini - Whitespace issues fixing
 
   This style sheet is based on a major revision of the original CDA XSL, which was made possible thanks to the contributions of:
   - Jingdong Li
@@ -119,6 +122,7 @@ limitations under the License.
       <body data-spy="scroll" data-target="#navbar-cda">
 
         <div class="cda-render toc col-md-3" role="complementary">
+
           <!-- produce table of contents -->
           <xsl:if test="not(//n1:nonXMLBody)">
             <xsl:if test="count(/n1:ClinicalDocument/n1:component/n1:structuredBody/n1:component[n1:section]) &gt; 0">
@@ -129,30 +133,7 @@ limitations under the License.
 
         <!-- Container: CDA Render -->
         <div class="cda-render container-fluid col-md-9 cda-render-main" role="main">
-          <nav class="cda-render navbar-default navbar-fixed-top">
-            <div class="container-fluid">
-              <xsl:if test="$logo-location">
-                <div class="col-md-1">
-                  <img src="logo.png" class="img-responsive" alt="Logo">
-                    <xsl:attribute name="src">
-                      <xsl:value-of select="$logo-location"/>
-                    </xsl:attribute>
-                  </img>
-                </div>
-              </xsl:if>
-              <div class="cda-render navbar-header patient-header">
-                <xsl:for-each select="/n1:ClinicalDocument/n1:recordTarget/n1:patientRole"> Patient:
-                    <xsl:call-template name="show-name">
-                    <xsl:with-param name="name" select="n1:patient/n1:name"/>
-                  </xsl:call-template>
-                </xsl:for-each>
-              </div>
-              <div class="cda-render navbar-header patient-header"> Document Type:
-                  <xsl:value-of select="$title"/>
-              </div>
-            </div>
 
-          </nav>
           <row>
             <h1 id="top" class="cda-title">
               <xsl:value-of select="$title"/>
@@ -193,7 +174,29 @@ limitations under the License.
   </xsl:template>
   <!-- generate table of contents -->
   <xsl:template xmlns:n1="urn:hl7-org:v3" xmlns:in="urn:lantana-com:inline-variable-data" name="make-tableofcontents">
+
     <nav class="cda-render hidden-print hidden-xs hidden-sm affix toc-box" id="navbar-cda">
+      <div class="container-fluid cda-render toc-header-container">
+        <xsl:if test="$logo-location">
+          <div class="col-md-1">
+            <img src="logo.png" class="img-responsive" alt="Logo">
+              <xsl:attribute name="src">
+                <xsl:value-of select="$logo-location"/>
+              </xsl:attribute>
+            </img>
+          </div>
+        </xsl:if>
+        <div class="cda-render toc-header">
+          <xsl:for-each select="/n1:ClinicalDocument/n1:recordTarget/n1:patientRole">
+            <xsl:call-template name="show-name">
+              <xsl:with-param name="name" select="n1:patient/n1:name"/>
+            </xsl:call-template>
+          </xsl:for-each>
+        </div>
+        <div class="cda-render toc-header">
+          <xsl:value-of select="$title"/>
+        </div>
+      </div>
       <ul class="cda-render nav nav-stacked fixed" id="navbar-list-cda">
         <li>
           <a class="cda-render lantana-toc" href="#top">BACK TO TOP</a>
@@ -1545,7 +1548,7 @@ limitations under the License.
     </div>
   </xsl:template>
 
-  <xsl:template xmlns:n1="urn:hl7-org:v3" xmlns:in="urn:lantana-com:inline-variable-data" match="n1:thead | n1:tfoot | n1:tbody | n1:colgroup | n1:col | n1:tr | n1:th | n1:td ">
+  <xsl:template xmlns:n1="urn:hl7-org:v3" xmlns:in="urn:lantana-com:inline-variable-data" match="n1:thead | n1:tfoot | n1:tbody | n1:colgroup | n1:col | n1:tr | n1:th | n1:td">
     <xsl:element name="{local-name()}">
       <xsl:call-template name="output-attrs"/>
       <xsl:apply-templates/>
@@ -1558,7 +1561,6 @@ limitations under the License.
     </span>
   </xsl:template>
 
-  <!-- SG: added this to get linkHtml to render -->
   <xsl:template xmlns:n1="urn:hl7-org:v3" xmlns:in="urn:lantana-com:inline-variable-data" match="n1:linkHtml">
     <xsl:element name="a">
       <xsl:copy-of select="@* | text()"/>
@@ -1676,63 +1678,6 @@ limitations under the License.
       <xsl:value-of select="."/>
     </xsl:attribute>
   </xsl:template>
-  <!-- REMOVE HERE -->
-  <!--  <xsl:template match="//n1:*[@styleCode]">
-    <xsl:if test="@styleCode = 'Bold'">
-      <xsl:element name="b">
-        <xsl:apply-templates/>
-      </xsl:element>
-    </xsl:if>
-    <xsl:if test="@styleCode = 'Italics'">
-      <xsl:element name="i">
-        <xsl:apply-templates/>
-      </xsl:element>
-    </xsl:if>
-    <xsl:if test="@styleCode = 'Underline'">
-      <xsl:element name="u">
-        <xsl:apply-templates/>
-      </xsl:element>
-    </xsl:if>
-    <xsl:if
-      test="contains(@styleCode, 'Bold') and contains(@styleCode, 'Italics') and not(contains(@styleCode, 'Underline'))">
-      <xsl:element name="b">
-        <xsl:element name="i">
-          <xsl:apply-templates/>
-        </xsl:element>
-      </xsl:element>
-    </xsl:if>
-    <xsl:if
-      test="contains(@styleCode, 'Bold') and contains(@styleCode, 'Underline') and not(contains(@styleCode, 'Italics'))">
-      <xsl:element name="b">
-        <xsl:element name="u">
-          <xsl:apply-templates/>
-        </xsl:element>
-      </xsl:element>
-    </xsl:if>
-    <xsl:if
-      test="contains(@styleCode, 'Italics') and contains(@styleCode, 'Underline') and not(contains(@styleCode, 'Bold'))">
-      <xsl:element name="i">
-        <xsl:element name="u">
-          <xsl:apply-templates/>
-        </xsl:element>
-      </xsl:element>
-    </xsl:if>
-    <xsl:if
-      test="contains(@styleCode, 'Italics') and contains(@styleCode, 'Underline') and contains(@styleCode, 'Bold')">
-      <xsl:element name="b">
-        <xsl:element name="i">
-          <xsl:element name="u">
-            <xsl:apply-templates/>
-          </xsl:element>
-        </xsl:element>
-      </xsl:element>
-    </xsl:if>
-    <xsl:if
-      test="not(contains(@styleCode, 'Italics') or contains(@styleCode, 'Underline') or contains(@styleCode, 'Bold'))">
-      <xsl:apply-templates/>
-    </xsl:if>
-  </xsl:template>-->
-  <!-- END REMOVE HERE -->
   <!--    Superscript or Subscript   -->
   <xsl:template xmlns:n1="urn:hl7-org:v3" xmlns:in="urn:lantana-com:inline-variable-data" match="n1:sup">
     <xsl:element name="sup">
@@ -1893,9 +1838,8 @@ limitations under the License.
         </xsl:when>
         <xsl:otherwise>
           <div class="address-group-content">
-            <!-- TODO: Consider removing this kind of "filling in the blanks" by the rendering -->
             <span class="generated-text">
-              <xsl:text>&lt;No Information Entered in this Field&gt;</xsl:text>
+              <xsl:text>&lt;&gt;</xsl:text>
             </span>
           </div>
         </xsl:otherwise>
@@ -1915,8 +1859,7 @@ limitations under the License.
               <xsl:call-template name="translateTelecomCode">
                 <xsl:with-param name="code" select="$type"/>
               </xsl:call-template>
-            </div>
-            <div class="address-group-content">
+              <xsl:text> : </xsl:text>
               <xsl:if test="@use">
                 <xsl:text> (</xsl:text>
                 <xsl:call-template name="translateTelecomCode">
@@ -1929,7 +1872,7 @@ limitations under the License.
           </xsl:if>
         </xsl:when>
         <xsl:otherwise>
-          <xsl:text>Telecom information not available</xsl:text>
+          <xsl:text>&lt;&gt;</xsl:text>
         </xsl:otherwise>
       </xsl:choose>
     </div>
@@ -2436,46 +2379,6 @@ limitations under the License.
     <xsl:param name="date"/>
     <!-- month -->
     <xsl:variable name="month" select="substring($date, 5, 2)"/>
-    <!--
-    <xsl:choose>
-      <xsl:when test="$month = '01'">
-        <xsl:text>January </xsl:text>
-      </xsl:when>
-      <xsl:when test="$month = '02'">
-        <xsl:text>February </xsl:text>
-      </xsl:when>
-      <xsl:when test="$month = '03'">
-        <xsl:text>March </xsl:text>
-      </xsl:when>
-      <xsl:when test="$month = '04'">
-        <xsl:text>April </xsl:text>
-      </xsl:when>
-      <xsl:when test="$month = '05'">
-        <xsl:text>May </xsl:text>
-      </xsl:when>
-      <xsl:when test="$month = '06'">
-        <xsl:text>June </xsl:text>
-      </xsl:when>
-      <xsl:when test="$month = '07'">
-        <xsl:text>July </xsl:text>
-      </xsl:when>
-      <xsl:when test="$month = '08'">
-        <xsl:text>August </xsl:text>
-      </xsl:when>
-      <xsl:when test="$month = '09'">
-        <xsl:text>September </xsl:text>
-      </xsl:when>
-      <xsl:when test="$month = '10'">
-        <xsl:text>October </xsl:text>
-      </xsl:when>
-      <xsl:when test="$month = '11'">
-        <xsl:text>November </xsl:text>
-      </xsl:when>
-      <xsl:when test="$month = '12'">
-        <xsl:text>December </xsl:text>
-      </xsl:when>
-    </xsl:choose>
-    -->
     <!-- day -->
     <xsl:value-of select="$month"/>
     <xsl:text>/</xsl:text>
@@ -2981,568 +2884,6 @@ limitations under the License.
     </xsl:choose>
   </xsl:template>
 
-  <!-- convert common CCDA Document Identifiers -->
-  <xsl:template xmlns:n1="urn:hl7-org:v3" xmlns:in="urn:lantana-com:inline-variable-data" name="translate-doc-type">
-    <xsl:param name="code-type"/>
-    <xsl:choose>
-      <xsl:when test="$code-type = '34133-9'">
-        <xsl:text>Summarization of Episode Note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '18745-0'">
-        <xsl:text>Cardiac catheterization study</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '18746-8'">
-        <xsl:text>Colonoscopy study</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '18748-4'">
-        <xsl:text>Diagnostic Imaging study</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '18751-8'">
-        <xsl:text>Endoscopy study</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '11525-3'">
-        <xsl:text>US Pelvis and Fetus for pregnancy</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '68619-6'">
-        <xsl:text>Adolescent medicine Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '68633-7'">
-        <xsl:text>Allergy and immunology Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34749-2'">
-        <xsl:text>Anesthesiology Outpatient Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '68639-4'">
-        <xsl:text>Audiology Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34099-2'">
-        <xsl:text>Cardiology Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '68486-0'">
-        <xsl:text>Cardiovascular disease.medical student Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '68648-5'">
-        <xsl:text>Child and adolescent psychiatry Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '68651-9'">
-        <xsl:text>Clinical biochemical genetics Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '68661-8'">
-        <xsl:text>Clinical genetics Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '11488-4'">
-        <xsl:text>Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '64072-2'">
-        <xsl:text>Critical care medicine.medical student Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34756-7'">
-        <xsl:text>Dentistry Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34758-3'">
-        <xsl:text>Dermatology Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '68551-1'">
-        <xsl:text>Dermatology Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '68670-9'">
-        <xsl:text>Developmental-behavioral pediatrics Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34760-9'">
-        <xsl:text>Diabetology Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '51846-4'">
-        <xsl:text>Emergency department Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34879-7'">
-        <xsl:text>Endocrinology Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34761-7'">
-        <xsl:text>Gastroenterology Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34764-1'">
-        <xsl:text>General Medicine Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34101-6'">
-        <xsl:text>General medicine Outpatient Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '64056-5'">
-        <xsl:text>General medicine.medical student Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34776-5'">
-        <xsl:text>Gerontology Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34779-9'">
-        <xsl:text>Hematology + Medical Oncology Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34104-0'">
-        <xsl:text>Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34781-5'">
-        <xsl:text>Infectious Disease Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34100-8'">
-        <xsl:text>Intensive care unit Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '72555-6'">
-        <xsl:text>Interventional Radiology Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34783-1'">
-        <xsl:text>Kinesiotherapy Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '51854-8'">
-        <xsl:text>Long term care facility Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34785-6'">
-        <xsl:text>Mental Health Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '68681-6'">
-        <xsl:text>Multi-specialty program Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '68685-7'">
-        <xsl:text>Neonatal perinatal medicine Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34795-5'">
-        <xsl:text>Nephrology Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34798-9'">
-        <xsl:text>Neurological Surgery Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '68694-9'">
-        <xsl:text>Neurological surgery Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34797-1'">
-        <xsl:text>Neurology Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '68705-3'">
-        <xsl:text>Neurology with special qualifications in child neurology Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34800-3'">
-        <xsl:text>Nutrition and Dietetics Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34777-3'">
-        <xsl:text>Obstetrics and Gynecology Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '68566-9'">
-        <xsl:text>Obstetrics and Gynecology Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34803-7'">
-        <xsl:text>Occupational Health Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34855-7'">
-        <xsl:text>Occupational Therapy Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '68570-1'">
-        <xsl:text>Occupational therapy Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34805-2'">
-        <xsl:text>Oncology Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34807-8'">
-        <xsl:text>Ophthalmology Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '68575-0'">
-        <xsl:text>Ophthalmology Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34810-2'">
-        <xsl:text>Optometry Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34812-8'">
-        <xsl:text>Oromaxillofacial Surgery Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '68584-2'">
-        <xsl:text>Orthopedic surgery Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34814-4'">
-        <xsl:text>Orthopedics Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34816-9'">
-        <xsl:text>Otorhinolaryngology Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '51845-6'">
-        <xsl:text>Outpatient Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '68716-0'">
-        <xsl:text>Pain medicine Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '68469-6'">
-        <xsl:text>Pastoral care Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '60570-9'">
-        <xsl:text>Pathology Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '68727-7'">
-        <xsl:text>Pediatric cardiology Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '68892-9'">
-        <xsl:text>Pediatric dermatology Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '68897-8'">
-        <xsl:text>Pediatric endocrinology Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '68746-7'">
-        <xsl:text>Pediatric gastroenterology Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '68757-4'">
-        <xsl:text>Pediatric hematology-oncology Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '68765-7'">
-        <xsl:text>Pediatric infectious diseases Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '68869-7'">
-        <xsl:text>Pediatric nephrology Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '68874-7'">
-        <xsl:text>Pediatric otolaryngology Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '68787-1'">
-        <xsl:text>Pediatric pulmonology Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '68879-6'">
-        <xsl:text>Pediatric rheumatology Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '68802-8'">
-        <xsl:text>Pediatric surgery Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '68864-8'">
-        <xsl:text>Pediatric transplant hepatology Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '68812-7'">
-        <xsl:text>Pediatric urology Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '68821-8'">
-        <xsl:text>Pediatrics Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34820-1'">
-        <xsl:text>Pharmacy Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '68586-7'">
-        <xsl:text>Pharmacy Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34822-7'">
-        <xsl:text>Physical Medicine and Rehabilitation Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34824-3'">
-        <xsl:text>Physical Therapy Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '68590-9'">
-        <xsl:text>Physical therapy Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34826-8'">
-        <xsl:text>Plastic Surgery Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '68597-4'">
-        <xsl:text>Plastic surgery Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34828-4'">
-        <xsl:text>Podiatry Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '68837-4'">
-        <xsl:text>Primary care Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34788-0'">
-        <xsl:text>Psychiatry Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34102-4'">
-        <xsl:text>Psychiatry Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34791-4'">
-        <xsl:text>Psychology Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34103-2'">
-        <xsl:text>Pulmonary Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '64080-5'">
-        <xsl:text>Pulmonary disease.medical student Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34831-8'">
-        <xsl:text>Radiation Oncology Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '73575-3'">
-        <xsl:text>Radiology Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34833-4'">
-        <xsl:text>Recreational Therapy Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34835-9'">
-        <xsl:text>Rehabilitation Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34837-5'">
-        <xsl:text>Respiratory Therapy Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34839-1'">
-        <xsl:text>Rheumatology Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34841-7'">
-        <xsl:text>Social Work Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '68846-5'">
-        <xsl:text>Speech-language pathology Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34845-8'">
-        <xsl:text>Speech-language pathology+Audiology Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34847-4'">
-        <xsl:text>Surgery Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '64068-0'">
-        <xsl:text>Surgery medical student Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34849-0'">
-        <xsl:text>Thoracic surgery Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '64076-3'">
-        <xsl:text>Thoracic surgery.medical student Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '68852-3'">
-        <xsl:text>Transplant surgery Hospital Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34851-6'">
-        <xsl:text>Urology Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34853-2'">
-        <xsl:text>Vascular surgery Consult note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '29761-4'">
-        <xsl:text>Dentist Discharge summary</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '18842-5'">
-        <xsl:text>Discharge summary</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34105-7'">
-        <xsl:text>Hospital Discharge summary</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34745-0'">
-        <xsl:text>Nurse Discharge summary</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '28655-9'">
-        <xsl:text>Physician attending Discharge summary</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '11490-0'">
-        <xsl:text>Physician Discharge summary</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34106-5'">
-        <xsl:text>Physician Hospital Discharge summary</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '51849-8'">
-        <xsl:text>Admission history and physical note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34094-3'">
-        <xsl:text>Cardiology Hospital Admission history and physical note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34095-0'">
-        <xsl:text>Comprehensive history and physical note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34763-3'">
-        <xsl:text>General medicine Admission history and physical note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34117-2'">
-        <xsl:text>History and physical note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '47039-3'">
-        <xsl:text>Hospital Admission history and physical note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34115-6'">
-        <xsl:text>Medical student Hospital History and physical note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34096-8'">
-        <xsl:text>Nursing facility Comprehensive history and physical note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '28626-0'">
-        <xsl:text>Physician History and physical note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34116-4'">
-        <xsl:text>Physician Nursing facility History and physical note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '11492-6'">
-        <xsl:text>Provider-unspecified, History and physical note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34774-0'">
-        <xsl:text>Surgery History and physical note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34138-8'">
-        <xsl:text>Targeted history and physical note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '28583-3'">
-        <xsl:text>Dentist Operation note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34868-0'">
-        <xsl:text>Orthopaedic surgery Surgical operation note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34818-5'">
-        <xsl:text>Otolaryngology Surgical operation note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34137-0'">
-        <xsl:text>Outpatient Surgical operation note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '28573-4'">
-        <xsl:text>Physician, Operation note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34870-6'">
-        <xsl:text>Plastic surgery Surgical operation note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '28624-5'">
-        <xsl:text>Podiatry Operation note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '11504-8'">
-        <xsl:text>Provider-unspecified Operation note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34874-8'">
-        <xsl:text>Surgery Surgical operation note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34877-1'">
-        <xsl:text>Urology Surgical operation note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '48807-2'">
-        <xsl:text>Bone marrow aspiration report</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '33721-2'">
-        <xsl:text>Bone marrow Pathology biopsy report</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '18744-3'">
-        <xsl:text>Bronchoscopy study</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '18745-0'">
-        <xsl:text>Cardiac catheterization study</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '18836-7'">
-        <xsl:text>Cardiac stress study Procedure</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34896-1'">
-        <xsl:text>Cardiovascular disease Interventional procedure note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '18746-8'">
-        <xsl:text>Colonoscopy study</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '29757-2'">
-        <xsl:text>Colposcopy study</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '28577-5'">
-        <xsl:text>Dentist procedure note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '47048-4'">
-        <xsl:text>Diagnostic interventional study report Interventional radiology</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '18751-8'">
-        <xsl:text>Endoscopy study</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '18753-4'">
-        <xsl:text>Flexible sigmoidoscopy study</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34899-5'">
-        <xsl:text>Gastroenterology Interventional procedure note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34121-4'">
-        <xsl:text>Interventional procedure note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '11505-5'">
-        <xsl:text>Physician procedure note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '28625-2'">
-        <xsl:text>Podiatry procedure note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '28570-0'">
-        <xsl:text>Provider-unspecified Procedure note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34124-8'">
-        <xsl:text>Cardiology Outpatient Progress note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34125-5'">
-        <xsl:text>Case manager Patient's home Progress note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '28580-9'">
-        <xsl:text>Chiropractic medicine Progress note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34127-1'">
-        <xsl:text>Dentistry Hygienist Outpatient Progress note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34128-9'">
-        <xsl:text>Dentistry Outpatient Progress note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '28617-9'">
-        <xsl:text>Dentistry Progress note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '18762-5'">
-        <xsl:text>Deprecated Chiropractor Progress note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '18764-1'">
-        <xsl:text>Deprecated Nurse practitioner Progress note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34901-9'">
-        <xsl:text>General medicine Outpatient Progress note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34900-1'">
-        <xsl:text>General medicine Progress note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34130-5'">
-        <xsl:text>Hospital Progress note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34126-3'">
-        <xsl:text>Intensive care unit Progress note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34904-3'">
-        <xsl:text>Mental health Progress note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '28575-9'">
-        <xsl:text>Nurse practitioner Progress note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '28623-7'">
-        <xsl:text>Nurse Progress note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '11507-1'">
-        <xsl:text>Occupational therapy Progress note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34131-3'">
-        <xsl:text>Outpatient Progress note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34129-7'">
-        <xsl:text>Patient's home Progress note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '34132-1'">
-        <xsl:text>Pharmacy Outpatient Progress note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '11508-9'">
-        <xsl:text>Physical therapy Progress note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '18733-6'">
-        <xsl:text>Physician attending Progress note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '28569-2'">
-        <xsl:text>Physician consulting Progress note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '11509-7'">
-        <xsl:text>Podiatry Progress note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '15507-7'">
-        <xsl:text>Provider-unspecified ED Progress note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '11506-3'">
-        <xsl:text>Provider-unspecified Progress note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '28627-8'">
-        <xsl:text>Psychiatry Progress note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '11510-5'">
-        <xsl:text>Psychology Progress note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '28656-7'">
-        <xsl:text>Social work Progress note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '11512-1'">
-        <xsl:text>Speech-language pathology Progress note</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '55182-0'">
-        <xsl:text>Quality Measure Report</xsl:text>
-      </xsl:when>
-      <xsl:when test="$code-type = '51897-7'">
-        <xsl:text>Healthcare Associated Infection Report</xsl:text>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:text>CDA Document:  </xsl:text>
-        <xsl:value-of select="$code-type"/>
-      </xsl:otherwise>
-    </xsl:choose>
-  </xsl:template>
 <xsl:template xmlns:xs="http://www.w3.org/2001/XMLSchema" name="lantana-css">
     <style>
       /* Catch all for the document */
@@ -3558,24 +2899,31 @@ limitations under the License.
         font-weight:bold;
         text-align:center;
         text-transform: uppercase;
-        padding-top: 55px;
       }
 
-      /* nav bar formatting */
-      .cda-render .patient-header {
-        height: 50px;
-        padding: 15px 15px;
-        font-size: 1.5em;
-      }
 
       /* One-off - Table of contents formatting */
+      .cda-render .toc-header-container {
+        padding-top:0.5em;
+        border-bottom-width:0.1em;
+        border-bottom-style:solid;
+        border-bottom-color:#b3623d;
+        padding-bottom:0.5em;
+      }
+      
+      .cda-render .toc-header {
+        text-transform:uppercase;
+        color:#b3623d;
+        font-weight:bold;
+      }
+      
       .cda-render .toc {
         margin-top:3em;
-        padding: 10px 15px;
+        padding: 0px 15px;
       }
 
       .cda-render .toc-box {
-        padding-top: 80px;
+        
       }
 
 
@@ -3592,7 +2940,6 @@ limitations under the License.
         font-size:1.09em;
         font-weight:bold;
         text-transform: uppercase;
-        padding-top: 55px;
       }
 
       /* Re-usable - Attribute title */
@@ -3675,19 +3022,27 @@ $(window).resize(function(){
     $('#navbar-list-cda').height($(window).height()-100);
 });
 
-$(function() {
-  $('.cda-render a[href*="#"]:not([href="#"])').click(function() {
-    if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') &amp;&amp; location.hostname == this.hostname) {
-      var target = $(this.hash);
-      target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
-      if (target.length) {
-        $('html, body').animate({
-          scrollTop: target.offset().top
-        }, 1000);
-        return false;
-      }
-    }
-  });
+$(document).ready(function(){
+    $('.cda-render a[href*="#"]:not([href="#"])').bind('click.smoothscroll',function (e) {
+        e.preventDefault();
+      
+        var target = this.hash,
+        $target = $(target);
+      
+        $('html, body').stop().animate({
+            'scrollTop': $target.offset().top
+        }, 1000, 'swing', function () {
+            window.location.hash = target;
+            
+            // lets add a div in the background
+            $('&lt;div /&gt;').css({'background':'#336b7a'}).prependTo($target).fadeIn('fast', function(){
+                $(this).fadeOut('fast', function(){
+                    $(this).remove();
+                });
+            });
+            
+        });
+    });
 });
 
 $( function() {

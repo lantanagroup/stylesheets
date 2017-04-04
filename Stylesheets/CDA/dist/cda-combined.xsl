@@ -1366,6 +1366,22 @@ limitations under the License.
       </xsl:for-each>
     </ul>
   </xsl:template>
+  <xsl:template xmlns:n1="urn:hl7-org:v3" xmlns:in="urn:lantana-com:inline-variable-data" match="n1:list[@styleCode='none']">
+    <xsl:if test="n1:caption">
+      <p>
+        <b>
+          <xsl:apply-templates select="n1:caption"/>
+        </b>
+      </p>
+    </xsl:if>
+    <ul style="list-style-type:none">
+      <xsl:for-each select="n1:item">
+        <li>
+          <xsl:apply-templates/>
+        </li>
+      </xsl:for-each>
+    </ul>
+  </xsl:template>
   <xsl:template xmlns:n1="urn:hl7-org:v3" xmlns:in="urn:lantana-com:inline-variable-data" match="n1:list[@listType = 'ordered']">
     <xsl:if test="n1:caption">
       <span style="font-weight:bold; ">
@@ -1380,6 +1396,7 @@ limitations under the License.
       </xsl:for-each>
     </ol>
   </xsl:template>
+  
   <!--   caption  -->
   <xsl:template xmlns:n1="urn:hl7-org:v3" xmlns:in="urn:lantana-com:inline-variable-data" match="n1:caption">
     <xsl:apply-templates/>

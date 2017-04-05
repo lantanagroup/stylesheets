@@ -52,6 +52,12 @@
         font-weight:bold;
       }
 
+     /* Patient ID Formatting */
+     .patient-id {
+       border-left-width: 0.15em;
+       border-left-style: solid;
+       border-left-color: #478B95;
+     }
       /* Re-usable - Section-Title */
       .cda-render .section-title {
         color:#336b7a;

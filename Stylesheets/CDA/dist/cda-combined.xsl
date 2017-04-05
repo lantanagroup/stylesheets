@@ -36,6 +36,7 @@
   Revision History: 2017-02-24 Eric Parapini - Fixed titles
   Revision History: 2017-02-26 Eric Parapini - Cleaned up some code
   Revision History: 2017-03-31 Eric Parapini - Whitespace issues fixing
+  Revision History: 2017-04-05 Eric Parapini - Whitespace tweaking in the header, added patient ID highlighting
 
   This style sheet is based on a major revision of the original CDA XSL, which was made possible thanks to the contributions of:
   - Jingdong Li
@@ -299,7 +300,7 @@ limitations under the License.
               <h2 class="section-title col-md-6" id="author-performer">
                 <xsl:text>Author</xsl:text>
               </h2>
-              <div class="header-group-content col-md-6">
+              <div class="header-group-content col-md-8">
                 <xsl:choose>
                   <xsl:when test="n1:assignedPerson/n1:name">
                     <xsl:call-template name="show-name">
@@ -333,10 +334,10 @@ limitations under the License.
                 </xsl:choose>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
               <xsl:if test="n1:addr | n1:telecom">
                 <h2 class="section-title col-md-6">Contact</h2>
-                <div class="header-group-content col-md-6">
+                <div class="header-group-content col-md-8">
                   <xsl:call-template name="show-contactInfo">
                     <xsl:with-param name="contact" select="."/>
                   </xsl:call-template>
@@ -357,7 +358,7 @@ limitations under the License.
             <h2 class="section-title col-md-6">
               <xsl:text>Signed</xsl:text>
             </h2>
-            <div class="header-group-content col-md-6">
+            <div class="header-group-content col-md-8">
               <xsl:call-template name="show-name">
                 <xsl:with-param name="name" select="n1:assignedEntity/n1:assignedPerson/n1:name"/>
               </xsl:call-template>
@@ -367,12 +368,12 @@ limitations under the License.
               </xsl:call-template>
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-6">
             <xsl:if test="n1:assignedEntity/n1:addr | n1:assignedEntity/n1:telecom">
               <h2 class="section-title col-md-6">
                 <xsl:text>Contact</xsl:text>
               </h2>
-              <div class="header-group-content col-md-6">
+              <div class="header-group-content col-md-8">
                 <xsl:call-template name="show-contactInfo">
                   <xsl:with-param name="contact" select="n1:assignedEntity"/>
                 </xsl:call-template>
@@ -392,7 +393,7 @@ limitations under the License.
             <h2 class="section-title col-md-6">
               <xsl:text>Legal authenticator</xsl:text>
             </h2>
-            <div class="header-group-content col-md-6">
+            <div class="header-group-content col-md-8">
               <xsl:call-template name="show-assignedEntity">
                 <xsl:with-param name="asgnEntity" select="n1:legalAuthenticator/n1:assignedEntity"/>
               </xsl:call-template>
@@ -409,9 +410,9 @@ limitations under the License.
             </div>
           </div>
           <xsl:if test="n1:legalAuthenticator/n1:assignedEntity/n1:addr | n1:legalAuthenticator/n1:assignedEntity/n1:telecom">
-            <div class="col-md-4">
+            <div class="col-md-6">
               <h2 class="col-md-6 section-title">Contact</h2>
-              <div class="header-group-content col-md-6">
+              <div class="header-group-content col-md-8">
                 <xsl:call-template name="show-contactInfo">
                   <xsl:with-param name="contact" select="n1:legalAuthenticator/n1:assignedEntity"/>
                 </xsl:call-template>
@@ -436,7 +437,7 @@ limitations under the License.
             </xsl:call-template>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
           <xsl:if test="n1:dataEnterer/n1:assignedEntity/n1:addr | n1:dataEnterer/n1:assignedEntity/n1:telecom">
             <h2 class="section-title col-md-6">
               <xsl:text>Contact</xsl:text>
@@ -461,25 +462,25 @@ limitations under the License.
               <h2 class="section-title col-md-6">
                 <xsl:text>Encounter</xsl:text>
               </h2>
-              <div class="header-group-content col-md-6">
+              <div class="header-group-content col-md-8">
                 <xsl:if test="n1:id">
                   <xsl:choose>
                     <xsl:when test="n1:code">
                       <div class="row">
-                        <div class="attribute-title col-md-4">
+                        <div class="attribute-title col-md-6">
                           <xsl:text>Identifier</xsl:text>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                           <xsl:call-template name="show-id">
                             <xsl:with-param name="id" select="n1:id"/>
                           </xsl:call-template>
                         </div>
                       </div>
                       <div class="row">
-                        <div class="attribute-title col-md-4">
+                        <div class="attribute-title col-md-6">
                           <xsl:text>Type</xsl:text>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                           <xsl:call-template name="show-code">
                             <xsl:with-param name="code" select="n1:code"/>
                           </xsl:call-template>
@@ -488,10 +489,10 @@ limitations under the License.
                     </xsl:when>
                     <xsl:otherwise>
                       <div class="row">
-                        <div class="attribute-title col-md-4">
+                        <div class="attribute-title col-md-6">
                           <xsl:text>Identifier</xsl:text>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                           <xsl:call-template name="show-id">
                             <xsl:with-param name="id" select="n1:id"/>
                           </xsl:call-template>
@@ -501,20 +502,20 @@ limitations under the License.
                   </xsl:choose>
                 </xsl:if>
                 <div class="row">
-                  <div class="attribute-title col-md-4">
+                  <div class="attribute-title col-md-6">
                     <xsl:text>Date</xsl:text>
                   </div>
                   <xsl:if test="n1:effectiveTime">
                     <xsl:choose>
                       <xsl:when test="n1:effectiveTime/@value">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                           <xsl:call-template name="show-time">
                             <xsl:with-param name="datetime" select="n1:effectiveTime"/>
                           </xsl:call-template>
                         </div>
                       </xsl:when>
                       <xsl:when test="n1:effectiveTime/n1:low">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                           <span class="attribute-title">
                             <xsl:text>From: </xsl:text>
                           </span>
@@ -523,7 +524,7 @@ limitations under the License.
                           </xsl:call-template>
                         </div>
                         <xsl:if test="n1:effectiveTime/n1:high">
-                          <div class="col-md-4">
+                          <div class="col-md-6">
                             <span class="attribute-title">
                               <xsl:text>To: </xsl:text>
                             </span>
@@ -538,10 +539,10 @@ limitations under the License.
                 </div>
                 <xsl:if test="n1:location/n1:healthCareFacility">
                   <div class="row">
-                    <div class="attribute-title col-md-4">
+                    <div class="attribute-title col-md-6">
                       <xsl:text>Location</xsl:text>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                       <xsl:choose>
                         <xsl:when test="n1:location/n1:healthCareFacility/n1:location/n1:name">
                           <xsl:call-template name="show-name">
@@ -581,7 +582,7 @@ limitations under the License.
                   <h2 class="section-title col-md-6">
                     <xsl:text>Responsible Party</xsl:text>
                   </h2>
-                  <div class="header-group-content col-md-6">
+                  <div class="header-group-content col-md-8">
                     <xsl:call-template name="show-assignedEntity">
                       <xsl:with-param name="asgnEntity" select="n1:responsibleParty/n1:assignedEntity"/>
                     </xsl:call-template>
@@ -589,11 +590,11 @@ limitations under the License.
                 </div>
               </xsl:if>
               <xsl:if test="n1:responsibleParty/n1:assignedEntity/n1:addr | n1:responsibleParty/n1:assignedEntity/n1:telecom">
-                <div class="col-md-4">
+                <div class="col-md-6">
                   <h2 class="section-title col-md-6">
                     <xsl:text>Contact</xsl:text>
                   </h2>
-                  <div class="header-group-content col-md-6">
+                  <div class="header-group-content col-md-8">
                     <xsl:call-template name="show-contactInfo">
                       <xsl:with-param name="contact" select="n1:responsibleParty/n1:assignedEntity"/>
                     </xsl:call-template>
@@ -614,7 +615,7 @@ limitations under the License.
           <h2 class="section-title col-md-6">
             <xsl:text>Document maintained by</xsl:text>
           </h2>
-          <div class="header-group-content col-md-6">
+          <div class="header-group-content col-md-8">
             <xsl:choose>
               <xsl:when test="n1:custodian/n1:assignedCustodian/n1:representedCustodianOrganization/n1:name">
                 <xsl:call-template name="show-name">
@@ -631,9 +632,9 @@ limitations under the License.
           </div>
         </div>
         <xsl:if test="n1:custodian/n1:assignedCustodian/n1:representedCustodianOrganization/n1:addr | n1:custodian/n1:assignedCustodian/n1:representedCustodianOrganization/n1:telecom">
-          <div class="col-md-4">
+          <div class="col-md-6">
             <h2 class="section-title col-md-6"> Contact </h2>
-            <div class="header-group-content col-md-6">
+            <div class="header-group-content col-md-8">
               <xsl:call-template name="show-contactInfo">
                 <xsl:with-param name="contact" select="n1:custodian/n1:assignedCustodian/n1:representedCustodianOrganization"/>
               </xsl:call-template>
@@ -664,7 +665,7 @@ limitations under the License.
                       </xsl:call-template>
                     </h2>
                   </div>
-                  <div class="header-group-content col-md-6">
+                  <div class="header-group-content col-md-8">
                     <xsl:call-template name="show-code">
                       <xsl:with-param name="code" select="n1:serviceEvent/n1:code"/>
                     </xsl:call-template>
@@ -712,12 +713,12 @@ limitations under the License.
                 <h2 class="section-title col-md-6" id="service-event">
                   <xsl:text>Service Event</xsl:text>
                 </h2>
-                <div class="header-group-content col-md-6">
+                <div class="header-group-content col-md-8">
                   <xsl:call-template name="show-assignedEntity">
                     <xsl:with-param name="asgnEntity" select="n1:assignedEntity"/>
                   </xsl:call-template>
                 </div>
-                <div class="header-group-content col-md-6">
+                <div class="header-group-content col-md-8">
                   <xsl:if test="../n1:effectiveTime/n1:low">
                     <xsl:call-template name="show-time">
                       <xsl:with-param name="datetime" select="../n1:effectiveTime/n1:low"/>
@@ -771,7 +772,7 @@ limitations under the License.
               <h2 class="section-title col-md-6">
                 <xsl:text>Informant</xsl:text>
               </h2>
-              <div class="header-group-content col-md-6">
+              <div class="header-group-content col-md-8">
                 <xsl:if test="n1:assignedEntity">
                   <xsl:call-template name="show-assignedEntity">
                     <xsl:with-param name="asgnEntity" select="n1:assignedEntity"/>
@@ -786,11 +787,11 @@ limitations under the License.
             </div>
             <xsl:choose>
               <xsl:when test="n1:assignedEntity/n1:addr | n1:assignedEntity/n1:telecom">
-                <div class="col-md-4">
+                <div class="col-md-6">
                   <h2 class="section-title col-md-6">
                     <xsl:text>Contact</xsl:text>
                   </h2>
-                  <div class="header-group-content col-md-6">
+                  <div class="header-group-content col-md-8">
                     <xsl:if test="n1:assignedEntity">
                       <xsl:call-template name="show-contactInfo">
                         <xsl:with-param name="contact" select="n1:assignedEntity"/>
@@ -800,7 +801,7 @@ limitations under the License.
                 </div>
               </xsl:when>
               <xsl:when test="n1:relatedEntity/n1:addr | n1:relatedEntity/n1:telecom">
-                <div class="col-md-4">
+                <div class="col-md-6">
                   <h2 class="col-md-6 section-title">
                     <xsl:text>Contact</xsl:text>
                   </h2>
@@ -849,7 +850,7 @@ limitations under the License.
                   </xsl:otherwise>
                 </xsl:choose>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-6">
                 <xsl:if test="n1:intendedRecipient/n1:addr | n1:intendedRecipient/n1:telecom">
                   <h2 class="section-title col-md-6">
                     <xsl:text>Contact</xsl:text>
@@ -893,7 +894,7 @@ limitations under the License.
                     </xsl:otherwise>
                   </xsl:choose>
                 </h2>
-                <div class="header-group-content col-md-6">
+                <div class="header-group-content col-md-8">
                   <xsl:if test="n1:functionCode">
                     <xsl:call-template name="show-code">
                       <xsl:with-param name="code" select="n1:functionCode"/>
@@ -921,7 +922,7 @@ limitations under the License.
                   </xsl:if>
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-6">
                 <xsl:if test="n1:associatedEntity/n1:addr | n1:associatedEntity/n1:telecom">
                   <h2 class="section-title col-md-6">
                     <xsl:text>Contact</xsl:text>
@@ -955,7 +956,7 @@ limitations under the License.
               <div class="attribute-title row">Patient Identifiers</div>
               <xsl:for-each select="n1:id">
                 <div class="row">
-                  <div class="col-md-6">
+                  <div class="col-md-6 patient-id">
                     <xsl:call-template name="show-id"/>
                   </div>
                 </div>
@@ -965,22 +966,22 @@ limitations under the License.
           <div class="patient-info container-fluid">
             <div class="col-md-6">
               <h2 class="section-title col-md-6">About</h2>
-              <div class="header-group-content col-md-6">
+              <div class="header-group-content col-md-8">
                 <div class="row">
-                  <div class="attribute-title col-md-4">
+                  <div class="attribute-title col-md-6">
                     <xsl:text>Date of Birth</xsl:text>
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-md-6">
                     <xsl:call-template name="show-time">
                       <xsl:with-param name="datetime" select="n1:patient/n1:birthTime"/>
                     </xsl:call-template>
                   </div>
                 </div>
                 <div class="row">
-                  <div class="attribute-title col-md-4">
+                  <div class="attribute-title col-md-6">
                     <xsl:text>Sex</xsl:text>
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-md-6">
                     <xsl:for-each select="n1:patient/n1:administrativeGenderCode">
                       <xsl:call-template name="show-gender"/>
                     </xsl:for-each>
@@ -988,10 +989,10 @@ limitations under the License.
                 </div>
                 <xsl:if test="n1:patient/n1:raceCode | (n1:patient/n1:ethnicGroupCode)">
                   <div class="row">
-                    <div class="attribute-title col-md-4">
+                    <div class="attribute-title col-md-6">
                       <xsl:text>Race</xsl:text>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                       <xsl:choose>
                         <xsl:when test="n1:patient/n1:raceCode">
                           <xsl:for-each select="n1:patient/n1:raceCode">
@@ -1007,10 +1008,10 @@ limitations under the License.
                     </div>
                   </div>
                   <div class="row">
-                    <div class="attribute-title col-md-4">
+                    <div class="attribute-title col-md-6">
                       <xsl:text>Ethnicity</xsl:text>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                       <xsl:choose>
                         <xsl:when test="n1:patient/n1:ethnicGroupCode">
                           <xsl:for-each select="n1:patient/n1:ethnicGroupCode">
@@ -1028,11 +1029,11 @@ limitations under the License.
                 </xsl:if>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
               <h2 class="section-title col-md-6">
                 <xsl:text>Contact</xsl:text>
               </h2>
-              <div class="header-group-content col-md-6">
+              <div class="header-group-content col-md-8">
                 <xsl:call-template name="show-contactInfo">
                   <xsl:with-param name="contact" select="."/>
                 </xsl:call-template>
@@ -1048,15 +1049,15 @@ limitations under the License.
             <div class="container-fluid" id="emergency-contact">
               <div class="col-md-6">
                 <h2 class="section-title col-md-6">Emergency Contact</h2>
-                <div class="header-group-content col-md-6">
+                <div class="header-group-content col-md-8">
                   <xsl:call-template name="show-associatedEntity">
                     <xsl:with-param name="assoEntity" select="n1:associatedEntity"/>
                   </xsl:call-template>
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-6">
                 <h2 class="section-title col-md-6">Contact</h2>
-                <div class="header-group-content col-md-6">
+                <div class="header-group-content col-md-8">
                   <xsl:call-template name="show-contactInfo">
                     <xsl:with-param name="contact" select="n1:associatedEntity"/>
                   </xsl:call-template>
@@ -1074,15 +1075,15 @@ limitations under the License.
             <div class="container-fluid" id="emergency-contact">
               <div class="col-md-6">
                 <h2 class="section-title col-md-6">Next of Kin</h2>
-                <div class="header-group-content col-md-6">
+                <div class="header-group-content col-md-8">
                   <xsl:call-template name="show-associatedEntity">
                     <xsl:with-param name="assoEntity" select="n1:associatedEntity"/>
                   </xsl:call-template>
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-6">
                 <h2 class="section-title col-md-6">Contact</h2>
-                <div class="header-group-content col-md-6">
+                <div class="header-group-content col-md-8">
                   <xsl:call-template name="show-contactInfo">
                     <xsl:with-param name="contact" select="n1:associatedEntity"/>
                   </xsl:call-template>
@@ -2951,6 +2952,12 @@ limitations under the License.
         font-weight:bold;
       }
 
+     /* Patient ID Formatting */
+     .patient-id {
+       border-left-width: 0.15em;
+       border-left-style: solid;
+       border-left-color: #478B95;
+     }
       /* Re-usable - Section-Title */
       .cda-render .section-title {
         color:#336b7a;

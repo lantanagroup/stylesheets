@@ -17,9 +17,7 @@ into a webpage that can be viewed in a browser or other XSLT-compatible applicat
 -	Logical grouping, revamped color palette, clearer text
 
 ## Overview of Files
-
 ###Development Files
-
 ####Stylesheet Files
 The stylesheet files are separated to make maintenance and development easier. They are combined into distribution files for packaging and using in production.
 

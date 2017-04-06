@@ -469,9 +469,9 @@ limitations under the License.
     <xsl:if test="n1:componentOf">
       <div class="header container-fluid">
         <xsl:for-each select="n1:componentOf/n1:encompassingEncounter">
-          <div class="container-fluid col-md-6">
+          <div class="container-fluid col-md-8">
             <div class="container-fluid">
-              <h2 class="section-title col-md-6">
+              <h2 class="section-title col-md-8">
                 <xsl:text>Encounter</xsl:text>
               </h2>
               <div class="header-group-content col-md-8">

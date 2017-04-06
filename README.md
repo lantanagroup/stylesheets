@@ -1,4 +1,5 @@
 #Lantana Stylesheets
+
 This is a repository to store any stylesheets developed and released by Lantana. 
 
 
@@ -26,6 +27,7 @@ The stylesheet files are separated to make maintenance and development easier. T
     ./cda-style.xsl             Contains CSS and custom Javascript
     ./cda-js-dependencies.xsl   Contains Fixed Libraries. Referenced for offline viewing
 
+
 ####Build Files
 The build files are used to combine the development stylesheet files into the distribution files
 
@@ -35,6 +37,7 @@ The build files are used to combine the development stylesheet files into the di
 ###Distribution Files
     ./dist/cda.xsl              All development files compiled into a single file. Useful for standalone offline rendering.
     ./dist/cda-web.xsl          All development files compiled into a single file with web references to the fixed libraries. Useful for rendering while connected to the internet.
+
 
 ## Installation
 No installation necessary. It is recommended to use the distribution files because it's easier to work with a single standalone file vs. multiple referenced files.

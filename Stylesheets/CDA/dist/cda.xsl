@@ -459,15 +459,15 @@ limitations under the License.
         <xsl:for-each select="n1:componentOf/n1:encompassingEncounter">
           <div class="container-fluid col-md-8">
             <div class="container-fluid">
-              <h2 class="section-title col-md-8">
+              <h2 class="section-title col-md-10">
                 <xsl:text>Encounter</xsl:text>
               </h2>
-              <div class="header-group-content col-md-8">
+              <div class="header-group-content col-md-10">
                 <xsl:if test="n1:id">
                   <xsl:choose>
                     <xsl:when test="n1:code">
                       <div class="row">
-                        <div class="attribute-title col-md-6">
+                        <div class="attribute-title col-md-2">
                           <xsl:text>Identifier</xsl:text>
                         </div>
                         <div class="col-md-6">
@@ -477,7 +477,7 @@ limitations under the License.
                         </div>
                       </div>
                       <div class="row">
-                        <div class="attribute-title col-md-6">
+                        <div class="attribute-title col-md-2">
                           <xsl:text>Type</xsl:text>
                         </div>
                         <div class="col-md-6">
@@ -489,7 +489,7 @@ limitations under the License.
                     </xsl:when>
                     <xsl:otherwise>
                       <div class="row">
-                        <div class="attribute-title col-md-6">
+                        <div class="attribute-title col-md-2">
                           <xsl:text>Identifier</xsl:text>
                         </div>
                         <div class="col-md-6">
@@ -502,20 +502,20 @@ limitations under the License.
                   </xsl:choose>
                 </xsl:if>
                 <div class="row">
-                  <div class="attribute-title col-md-6">
+                  <div class="attribute-title col-md-2">
                     <xsl:text>Date</xsl:text>
                   </div>
                   <xsl:if test="n1:effectiveTime">
                     <xsl:choose>
                       <xsl:when test="n1:effectiveTime/@value">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                           <xsl:call-template name="show-time">
                             <xsl:with-param name="datetime" select="n1:effectiveTime"/>
                           </xsl:call-template>
                         </div>
                       </xsl:when>
                       <xsl:when test="n1:effectiveTime/n1:low">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                           <span class="attribute-title">
                             <xsl:text>From: </xsl:text>
                           </span>
@@ -524,7 +524,7 @@ limitations under the License.
                           </xsl:call-template>
                         </div>
                         <xsl:if test="n1:effectiveTime/n1:high">
-                          <div class="col-md-6">
+                          <div class="col-md-4">
                             <span class="attribute-title">
                               <xsl:text>To: </xsl:text>
                             </span>
@@ -539,7 +539,7 @@ limitations under the License.
                 </div>
                 <xsl:if test="n1:location/n1:healthCareFacility">
                   <div class="row">
-                    <div class="attribute-title col-md-6">
+                    <div class="attribute-title col-md-2">
                       <xsl:text>Location</xsl:text>
                     </div>
                     <div class="col-md-6">

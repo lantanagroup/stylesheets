@@ -7,14 +7,14 @@
         
         <!-- Create the massive combined document -->
         <xslt in="Stylesheets/CDA/cda.xsl" style="compile.xsl"
-            out="Stylesheets/CDA/dist/cda-combined.xsl" force="true">
+            out="Stylesheets/CDA/dist/cda.xsl" force="true">
             <param name="styleFile" expression="${cda-style}" type="STRING"/>
             <param name="jsFile" expression="${cda-js-dependencies}" type="STRING"/>
         </xslt>
         
         <!-- Create the web edition -->
         <xslt in="Stylesheets/CDA/cda.xsl" style="compile.xsl"
-            out="Stylesheets/CDA/dist/cda-combined-web.xsl" force="true">
+            out="Stylesheets/CDA/dist/cda-web.xsl" force="true">
             <param name="styleFile" expression="${cda-style}" type="STRING"/>
             <param name="jsFile" expression="${cda-js-dependencies}" type="STRING"/>
             

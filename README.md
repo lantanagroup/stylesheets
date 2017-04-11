@@ -1,4 +1,4 @@
-#Lantana Stylesheets
+# Lantana Stylesheets
 
 This is a repository to store any stylesheets developed and released by Lantana. 
 
@@ -17,8 +17,8 @@ into a webpage that can be viewed in a browser or other XSLT-compatible applicat
 -	Logical grouping, revamped color palette, clearer text
 
 ## Overview of Files
-###Development Files
-####Stylesheet Files
+### Development Files
+#### Stylesheet Files
 The stylesheet files are separated to make maintenance and development easier. They are combined into distribution files for packaging and using in production.
 
     ./cda.xsl                   The main transformation, depends on cda-style.xsl and cda-js-dependencies.xsl
@@ -26,13 +26,13 @@ The stylesheet files are separated to make maintenance and development easier. T
     ./cda-js-dependencies.xsl   Contains Fixed Libraries. Referenced for offline viewing
 
 
-####Build Files
+#### Build Files
 The build files are used to combine the development stylesheet files into the distribution files
 
     ./build.xml                 An ANT file that when executed combines the files and outputs the two distribution files
     ./compile.xsl               A transformation which performs the actual combination of the xsl files. 
 
-###Distribution Files
+### Distribution Files
     ./dist/cda.xsl              All development files compiled into a single file. Useful for standalone offline rendering.
     ./dist/cda-web.xsl          All development files compiled into a single file with web references to the fixed libraries. Useful for rendering while connected to the internet.
 

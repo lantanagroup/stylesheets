@@ -43,7 +43,18 @@
       .cda-render .toc-box {
         
       }
-
+      
+      .style-code.Underline {
+        text-decoration: underline;
+      }
+      
+      .style-code.Bold {
+        font-weight: bold;
+      }
+      
+      .style-code.Italics {
+        font-style: italic;
+      }
 
       /* One-off - Patient Name Formatting */
       .cda-render .patient-name {

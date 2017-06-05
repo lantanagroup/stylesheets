@@ -37,6 +37,7 @@
   Revision History: 2017-02-26 Eric Parapini - Cleaned up some code
   Revision History: 2017-03-31 Eric Parapini - Whitespace issues fixing
   Revision History: 2017-04-05 Eric Parapini - Whitespace tweaking in the header, added patient ID highlighting
+  Revision History: 2017-04-06 Eric Parapini - Tweaked encounter whitespace organization
 
   This style sheet is based on a major revision of the original CDA XSL, which was made possible thanks to the contributions of:
   - Jingdong Li
@@ -1338,11 +1339,10 @@ limitations under the License.
   <xsl:template xmlns:n1="urn:hl7-org:v3" xmlns:in="urn:lantana-com:inline-variable-data" match="n1:content[@revised = 'delete']"/>
   <!--   content  -->
   <xsl:template xmlns:n1="urn:hl7-org:v3" xmlns:in="urn:lantana-com:inline-variable-data" match="n1:content">
-    <xsl:element name="content">
+    <span>
       <xsl:call-template name="output-attrs"/>
-      <!--<xsl:apply-templates select="@styleCode"/>-->
       <xsl:apply-templates/>
-    </xsl:element>
+    </span>
   </xsl:template>
   <!-- line break -->
   <xsl:template xmlns:n1="urn:hl7-org:v3" xmlns:in="urn:lantana-com:inline-variable-data" match="n1:br">
@@ -1535,7 +1535,10 @@ limitations under the License.
           </xsl:message>
         </xsl:when>
         <xsl:when test="$attr-name = 'styleCode'">
-          <xsl:apply-templates select="."/>
+          <xsl:attribute name="class">
+            <xsl:text>style-code </xsl:text>
+            <xsl:value-of select="."/>
+          </xsl:attribute>
         </xsl:when>
         <!--<xsl:when
           test="not(document('')/xsl:stylesheet/xsl:variable[@name = 'table-elem-attrs']/in:tableElems/in:elem[@name = $elem-name]/in:attr[@name = $attr-name])">
@@ -1551,7 +1554,7 @@ limitations under the License.
           </xsl:message>
         </xsl:when>
         <xsl:otherwise>
-          <xsl:copy-of select="."/>
+          <xsl:apply-templates select="."/>
         </xsl:otherwise>
       </xsl:choose>
     </xsl:for-each>
@@ -2943,7 +2946,18 @@ limitations under the License.
       .cda-render .toc-box {
         
       }
-
+      
+      .style-code.Underline {
+        text-decoration: underline;
+      }
+      
+      .style-code.Bold {
+        font-weight: bold;
+      }
+      
+      .style-code.Italics {
+        font-style: italic;
+      }
 
       /* One-off - Patient Name Formatting */
       .cda-render .patient-name {

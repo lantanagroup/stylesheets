@@ -1367,11 +1367,10 @@ limitations under the License.
   <xsl:template match="n1:content[@revised = 'delete']"/>
   <!--   content  -->
   <xsl:template match="n1:content">
-    <xsl:element name="content">
+    <span>
       <xsl:call-template name="output-attrs"/>
-      <!--<xsl:apply-templates select="@styleCode"/>-->
-      <xsl:apply-templates/>
-    </xsl:element>
+      <xsl:apply-templates />
+    </span>
   </xsl:template>
   <!-- line break -->
   <xsl:template match="n1:br">
@@ -1565,7 +1564,10 @@ limitations under the License.
           </xsl:message>
         </xsl:when>
         <xsl:when test="$attr-name = 'styleCode'">
-          <xsl:apply-templates select="."/>
+          <xsl:attribute name="class">
+            <xsl:text>style-code </xsl:text>
+            <xsl:value-of select="." />
+          </xsl:attribute>
         </xsl:when>
         <!--<xsl:when
           test="not(document('')/xsl:stylesheet/xsl:variable[@name = 'table-elem-attrs']/in:tableElems/in:elem[@name = $elem-name]/in:attr[@name = $attr-name])">
@@ -1581,7 +1583,7 @@ limitations under the License.
           </xsl:message>
         </xsl:when>
         <xsl:otherwise>
-          <xsl:copy-of select="."/>
+          <xsl:apply-templates select="." />
         </xsl:otherwise>
       </xsl:choose>
     </xsl:for-each>

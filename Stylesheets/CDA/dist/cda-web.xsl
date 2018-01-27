@@ -37,6 +37,7 @@
   Revision History: 2017-02-26 Eric Parapini - Cleaned up some code
   Revision History: 2017-03-31 Eric Parapini - Whitespace issues fixing
   Revision History: 2017-04-05 Eric Parapini - Whitespace tweaking in the header, added patient ID highlighting
+  Revision History: 2017-04-06 Eric Parapini - Tweaked encounter whitespace organization
 
   This style sheet is based on a major revision of the original CDA XSL, which was made possible thanks to the contributions of:
   - Jingdong Li

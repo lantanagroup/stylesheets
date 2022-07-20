@@ -38,6 +38,8 @@
   Revision History: 2017-03-31 Eric Parapini - Whitespace issues fixing
   Revision History: 2017-04-05 Eric Parapini - Whitespace tweaking in the header, added patient ID highlighting
   Revision History: 2017-04-06 Eric Parapini - Tweaked encounter whitespace organization
+  
+  Revision History: 2022-07-20 Sarah Gaunt   - Fixed toc title not wrapping on smaller screens causing it to overwrite main title
 
   This style sheet is based on a major revision of the original CDA XSL, which was made possible thanks to the contributions of:
   - Jingdong Li
@@ -177,7 +179,7 @@ limitations under the License.
   <!-- generate table of contents -->
   <xsl:template xmlns:n1="urn:hl7-org:v3" xmlns:in="urn:lantana-com:inline-variable-data" name="make-tableofcontents">
 
-    <nav class="cda-render hidden-print hidden-xs hidden-sm affix toc-box" id="navbar-cda">
+    <nav class="cda-render hidden-print hidden-xs hidden-sm affix toc-box col-md-3" id="navbar-cda">
       <div class="container-fluid cda-render toc-header-container">
         <xsl:if test="$logo-location">
           <div class="col-md-1">
